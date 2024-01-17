@@ -1,0 +1,65 @@
+<template>
+    <section class="body-options">
+        <button @click.prevent="addBold"><BoldIcon /></button>
+        <button><ItalicIcon /></button>
+        <button><LinkIcon /></button>
+        <button><HeadingIcon /></button>
+        <button><QouteIcon /></button>
+        <button><CodeIcon /></button>
+        <button><ImageIcon /></button>
+    </section>
+</template>
+
+<script>
+import BoldIcon from "../assets/svgs/bold.vue"
+import ItalicIcon from "../assets/svgs/italic.vue"
+import LinkIcon from "../assets/svgs/link.vue"
+import HeadingIcon from "../assets/svgs/heading.vue"
+import QouteIcon from "../assets/svgs/qoute.vue"
+import CodeIcon from "../assets/svgs/code.vue"
+import ImageIcon from "../assets/svgs/image.vue"
+export default {
+    components: {
+        BoldIcon,
+        CodeIcon,
+        HeadingIcon,
+        ImageIcon,
+        ItalicIcon,
+        LinkIcon,
+        QouteIcon,
+    },
+    setup(props,context) {
+
+        const addBold = () => {
+            context.emit('addBold')
+        }
+        return {addBold}
+    },
+}
+</script>
+
+<style lang="scss" scoped>
+.body-options {
+    align-self: stretch;
+    padding-inline: 0;
+    background-color: #f9f9f9;
+    padding-inline-start: 12px;
+    padding-block: 5px;
+    button {
+        margin-inline-end: 4px;
+        padding: 8px;
+        background-color: transparent;
+        font-size: x-large;
+        width: 40px;
+        height: 40px;
+        border: 0;
+        border-radius: 4px;
+        &:hover {
+            background-color: rgb(230 231 247);
+            svg {
+                fill: rgb(47 58 178);
+            }
+        }
+    }
+}
+</style>

@@ -1,0 +1,35 @@
+.post-filter {
+    position: sticky;
+    top: 80px;
+    .order {
+        display: flex;
+        padding: 1.25rem;
+        gap: 10px;
+        span{
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 300;
+            &.selected{
+                font-weight: 700;
+            }
+        }
+    }
+    .tags{
+        background-color: rgba(255,255,255,1);
+        border-radius: 3px;
+        padding: 1.25rem;
+        box-shadow: 0 0 1px rgba(23, 23, 23, 0.05);
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        .tags-header {
+            font-weight: 700;
+        }
+    }
+}
+
+@media(max-width:500px){
+    .post-filter {
+        display: none;
+    }
+}

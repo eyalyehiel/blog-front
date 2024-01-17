@@ -1,0 +1,15 @@
+.home {
+    padding-block: 10px;
+    display: grid;
+    // grid-template-columns: 660px 1fr;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    align-items: start;
+}
+
+@media (min-width: 500px) {
+    .home {
+        padding-inline: 20px;
+        grid-template-columns: minmax(auto,660px) 1fr;
+    }
+}
