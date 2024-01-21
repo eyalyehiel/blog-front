@@ -1,6 +1,9 @@
 <template>
     <main class="home">
         <PostList v-if="posts.length" :posts="posts" />
+        <section v-else class="post-list">
+            <section v-for="i in 4" :key="i" class="skeleton-8qepc0ou7sv"></section>
+        </section>
         <PostFilter @filter="setFilter" :tags="postTags" />
     </main>
 </template>

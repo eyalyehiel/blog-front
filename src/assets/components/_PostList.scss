@@ -3,7 +3,75 @@
     flex-direction: column;
     order: -1;
     gap: 10px;
+
+    .skeleton-8qepc0ou7sv:empty {
+        position: relative;
+        height: 170px;
+        background-color: #ffffff;
+        border-radius: 0px 0px 0px 0px;
+        background-image: linear-gradient(#f5f7f9 6px, transparent 0), linear-gradient(#f5f7f9 6px, transparent 0),
+            linear-gradient(#f5f7f9 15px, transparent 0), linear-gradient(#f5f7f9 6px, transparent 0),
+            linear-gradient(#f5f7f9 6px, transparent 0),
+            radial-gradient(circle 20px at 20px 20px, #f5f7f9 99%, transparent 0);
+        background-repeat: repeat-y;
+        background-size:
+            3% 170px,
+            3% 170px,
+            74% 170px,
+            52px 170px,
+            88px 170px,
+            40px 170px;
+        background-position:
+            right 42px top 138px,
+            left 12px top 111px,
+            left 12px top 79px,
+            left 59px top 39px,
+            left 59px top 21px,
+            left 12px top 12px;
+    }
+    .skeleton-8qepc0ou7sv:empty:before {
+        content: " ";
+        position: absolute;
+        z-index: 1000;
+        width: 100%;
+        height: 170px;
+        -webkit-mask-image: linear-gradient(
+            100deg,
+            rgba(255, 255, 255, 0),
+            rgba(255, 255, 255, 0.5) 50%,
+            rgba(255, 255, 255, 0) 80%
+        );
+        -webkit-mask-repeat: repeat-y;
+        -webkit-mask-size: 50px 170px;
+        -webkit-mask-position: -20% 0;
+        background-image: linear-gradient(rgba(102, 102, 102, 1) 6px, transparent 0),
+            linear-gradient(rgba(102, 102, 102, 1) 6px, transparent 0),
+            linear-gradient(rgba(102, 102, 102, 1) 15px, transparent 0),
+            linear-gradient(rgba(102, 102, 102, 1) 6px, transparent 0),
+            linear-gradient(rgba(102, 102, 102, 1) 6px, transparent 0),
+            radial-gradient(circle 20px at 20px 20px, rgba(102, 102, 102, 1) 99%, transparent 0);
+        background-repeat: repeat-y;
+        background-size:
+            3% 170px,
+            3% 170px,
+            74% 170px,
+            52px 170px,
+            88px 170px,
+            40px 170px;
+        background-position:
+            right 42px top 138px,
+            left 12px top 111px,
+            left 12px top 79px,
+            left 59px top 39px,
+            left 59px top 21px,
+            left 12px top 12px;
+        animation: shineForSkeleton-8qepc0ou7sv 2s infinite;
+    }
+    @keyframes shineForSkeleton-8qepc0ou7sv {
+        to {
+            -webkit-mask-position: 120% 0;
+        }
+    }
 }
 @media (min-width: 500px) {
-
 }

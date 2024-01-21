@@ -29,6 +29,7 @@
                 @addBold="addBold"
                 @addItalic="addItalic"
                 @addUrl="addUrl"
+                @addHeading="addHeading"
             />
             <textarea
                 @keydown.enter="addEnter"
@@ -45,7 +46,9 @@
             <button class="publish" @click.prevent="addPost(false)">
                 Publish
             </button>
-            <button class="save" @click.prevent="addPost(true)">Save draft</button>
+            <button class="save" @click.prevent="addPost(true)">
+                Save draft
+            </button>
         </section>
     </form>
 </template>
@@ -67,7 +70,6 @@ export default {
         const enterPositions = ref([])
         const uploader = ref("")
         const addItalic = async () => {
-            // body.value += "__"
             body.value =
                 body.value.slice(0, textarea.value.selectionStart) +
                 "__" +
@@ -78,8 +80,6 @@ export default {
             textarea.value.selectionEnd = pos + 1
         }
         const addBold = async () => {
-            console.log(textarea.value.selectionStart)
-            // body.value = body.value + "****"
             body.value =
                 body.value.slice(0, textarea.value.selectionStart) +
                 "****" +
@@ -87,12 +87,9 @@ export default {
             await nextTick()
             textarea.value.focus()
             let pos = body.value.indexOf("****")
-            // textarea.value.selectionEnd = textarea.value.selectionEnd - 2
             textarea.value.selectionEnd = pos + 2
         }
         const addUrl = async () => {
-            console.log(textarea.value.selectionStart)
-            // body.value = body.value + "****"
             body.value =
                 body.value.slice(0, textarea.value.selectionStart) +
                 "[](url)" +
@@ -100,8 +97,18 @@ export default {
             await nextTick()
             textarea.value.focus()
             let pos = body.value.indexOf("(url)")
-            // textarea.value.selectionEnd = textarea.value.selectionEnd - 2
             textarea.value.setSelectionRange(pos + 1, pos + 4)
+        }
+        const addHeading = async () => {
+            textarea.value.selectionStart = body.value.length
+            addEnter()
+            addEnter()
+            body.value += "\n\n##\t\n\n"
+            await nextTick()
+            textarea.value.focus()
+            let pos = body.value.indexOf("##")
+            textarea.value.selectionEnd = pos + 3
+
         }
         const addEnter = () => {
             let pos = textarea.value.selectionStart
@@ -177,6 +184,7 @@ export default {
             addItalic,
             addUrl,
             addEnter,
+            addHeading,
         }
     },
     components: { PostTags, BodyOptions },

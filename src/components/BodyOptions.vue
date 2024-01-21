@@ -3,7 +3,7 @@
         <button @click.prevent="customText('addBold')"><BoldIcon /></button>
         <button @click.prevent="customText('addItalic')"><ItalicIcon /></button>
         <button @click.prevent="customText('addUrl')"><LinkIcon /></button>
-        <button><HeadingIcon /></button>
+        <button @click.prevent="customText('addHeading')"><HeadingIcon /></button>
         <button><QouteIcon /></button>
         <button><CodeIcon /></button>
         <button><ImageIcon /></button>
