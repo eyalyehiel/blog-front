@@ -5,7 +5,7 @@
         <div class="wrapper">
         <h2>{{ post.title }}</h2>
         <PostTags :tags="post.tags"/>
-        <p v-html="post.body"></p>
+        <p v-html="editedBody"></p>
         </div>
     </section>
     <section class="post-author"></section>
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref ,computed} from 'vue';
 import { useRoute } from 'vue-router';
 import { postService } from '@/services/post-service.js';
 import PostTags from '@/components/PostTags.vue';
@@ -27,7 +27,11 @@ export default {
             post.value = await postService.getById(id);
         });
 
-        return { post };
+        const editedBody = computed(()=>{
+            return postService.manageBody(post.value.body)
+        })
+
+        return { post,editedBody };
     },
     components: { PostTags }
 }

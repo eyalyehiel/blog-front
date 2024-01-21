@@ -55,6 +55,13 @@ async function save(post) {
 
 function manageBody(body) {
     let bodyToEdit = body
+    bodyToEdit = _addBold(bodyToEdit)
+    bodyToEdit = _addItalic(bodyToEdit)
+
+    return bodyToEdit
+}
+function _addBold(body) {
+    let bodyToEdit = body
     if (!RegExp.escape) {
         RegExp.escape = function (s) {
             return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")
@@ -72,7 +79,24 @@ function manageBody(body) {
 
     return bodyToEdit
 }
-
+function _addItalic(body) {
+    let bodyToEdit = body
+    if (!RegExp.escape) {
+        RegExp.escape = function (s) {
+            return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")
+        }
+    }
+    const subEsc = RegExp.escape("_")
+    const regex = new RegExp(subEsc, "g")
+    const matches = body.match(regex)?  Object.keys(body.match(regex)) : []
+    for (var i = 0; i < matches.length; i++) {
+        bodyToEdit = bodyToEdit.replace(
+            "_",
+            i % 2 === 0 ? "<em>" : "</em>"
+        )
+    }
+    return bodyToEdit
+}
 // async function addPostMsg(postId, txt) {
 //     const savedMsg = await httpService.post(`posts/${postId}/msg`, {txt})
 //     return savedMsg

@@ -11,13 +11,13 @@
 
 <script>
 import { useRoute } from "vue-router"
-import { onMounted, watch, watchEffect } from "vue"
+import { onMounted, toRefs, watch, watchEffect } from "vue"
 export default {
     props: {
         tags: Array,
     },
     setup(props) {
-        const { tags } = props
+        const { tags } = toRefs(props)
         const route = useRoute()
 
         const deleteTag = (tag) => {

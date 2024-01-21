@@ -1,8 +1,8 @@
 <template>
     <section class="body-options">
-        <button @click.prevent="addBold"><BoldIcon /></button>
-        <button><ItalicIcon /></button>
-        <button><LinkIcon /></button>
+        <button @click.prevent="customText('addBold')"><BoldIcon /></button>
+        <button @click.prevent="customText('addItalic')"><ItalicIcon /></button>
+        <button @click.prevent="customText('addUrl')"><LinkIcon /></button>
         <button><HeadingIcon /></button>
         <button><QouteIcon /></button>
         <button><CodeIcon /></button>
@@ -28,12 +28,11 @@ export default {
         LinkIcon,
         QouteIcon,
     },
-    setup(props,context) {
-
-        const addBold = () => {
-            context.emit('addBold')
+    setup(props, context) {
+        const customText = (type) => {
+            context.emit(type)
         }
-        return {addBold}
+        return { customText }
     },
 }
 </script>

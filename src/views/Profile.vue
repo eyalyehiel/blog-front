@@ -21,26 +21,36 @@
                 </div>
             </section>
             <section class="posts-dashboard">
-                <p>post preview</p>
-                <p>post preview</p>
-                <p>post preview</p>
+                <section class="dashboard-header">
+                    <h2>Posts</h2>
+                    <select>
+                        <option value="">All</option>
+                        <option value="">Draft</option>
+                        <option value="">Published</option>
+                    </select>
+                </section>
+                <section class="dashboard-list">
+                    <PostDisplay v-for="i in 3" :key="i" />
+                </section>
             </section>
         </section>
     </main>
 </template>
 
 <script>
+import PostDisplay from "@/components/PostDisplay.vue"
 import { userService } from "@/services/user-service"
 import { onMounted, ref } from "vue"
+
 export default {
     setup() {
         const user = ref(null)
         onMounted(() => {
             user.value = userService.getLoggedinUser()
         })
-
         return { user }
     },
+    components: { PostDisplay },
 }
 </script>
 
