@@ -39,27 +39,53 @@ async function remove(postId) {
     // await storageService.remove(STORAGE_KEY, postId)
     return httpService.delete(`post/${postId}`)
 }
-async function save(post) {
+async function save({ title, body, tags, toDraft }) {
+    const user = userService.getLoggedinUser()
+    var post = {
+        title,
+        body,
+        tags,
+        author: {
+            _id: user._id,
+            username: user.username,
+            imgUrl: user.imgUrl,
+        },
+        userLiked: [],
+        comments: [],
+        createdAt: Date.now(),
+        isDraft: toDraft,
+    }
     var savedPost
-    if (post.id) {
+    if (post._id) {
         // savedPost = await storageService.put(STORAGE_KEY, post)
-        savedPost = await httpService.put(`post/${post.id}`, post)
+        savedPost = await httpService.put(`post/${post._id}`, post)
     } else {
         // Later, owner is set by the backend
         // post.owner = userService.getLoggedinUser()
         // savedPost = await storageService.post(STORAGE_KEY, post)
         savedPost = await httpService.post("post", post)
+        console.log(savedPost)
     }
+     const miniPost = {
+        _id: savedPost._id,
+        title: savedPost.title,
+        comments: savedPost.comments || [],
+        userLiked: savedPost.userLiked || [],
+        isDraft: savedPost.isDraft
+    }
+    await userService.addToUserPosts(miniPost)
     return savedPost
 }
 
 function manageBody(body) {
     let bodyToEdit = body
+    let bodyArray = []
     bodyToEdit = _addBold(bodyToEdit)
     bodyToEdit = _addItalic(bodyToEdit)
     bodyToEdit = _addUrl(bodyToEdit)
     bodyToEdit = _addHeading(bodyToEdit)
-
+    bodyToEdit = _addQoute(bodyToEdit)
+    bodyToEdit = _addCode(bodyToEdit)
     return bodyToEdit
 }
 function _addBold(body) {
@@ -96,6 +122,21 @@ function _addItalic(body) {
     }
     return bodyToEdit
 }
+function _addCode(body) {
+    let bodyToEdit = body
+    if (!RegExp.escape) {
+        RegExp.escape = function (s) {
+            return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")
+        }
+    }
+    const subEsc = RegExp.escape("`")
+    const regex = new RegExp(subEsc, "g")
+    const matches = body.match(regex) ? Object.keys(body.match(regex)) : []
+    for (var i = 0; i < matches.length; i++) {
+        bodyToEdit = bodyToEdit.replace("`", i % 2 === 0 ? "<code>" : "</code>")
+    }
+    return bodyToEdit
+}
 function _addUrl(body) {
     let bodyToEdit = body
     const myString =
@@ -120,6 +161,18 @@ function _addHeading(body) {
         }
     )
 
+    return bodyToEdit
+}
+function _addQoute(body) {
+    let bodyToEdit = body
+    bodyToEdit = bodyToEdit.replace(
+        /-\s*([^\n]+)(\n.*)*/,
+        function (match, heading, rest) {
+            const formattedContent = heading.trim().replace(/\n/g, "<br/>\n")
+            return `<blockquote>${formattedContent}</blockquote><br/><br/>${rest}`
+        }
+    )
+    console.log(bodyToEdit)
     return bodyToEdit
 }
 // async function addPostMsg(postId, txt) {

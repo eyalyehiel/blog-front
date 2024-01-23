@@ -4,8 +4,8 @@
         <button @click.prevent="customText('addItalic')"><ItalicIcon /></button>
         <button @click.prevent="customText('addUrl')"><LinkIcon /></button>
         <button @click.prevent="customText('addHeading')"><HeadingIcon /></button>
-        <button><QouteIcon /></button>
-        <button><CodeIcon /></button>
+        <button @click.prevent="customText('addQuote')"><QuoteIcon /></button>
+        <button @click.prevent="customText('addCode')"><CodeIcon /></button>
         <button><ImageIcon /></button>
     </section>
 </template>
@@ -15,7 +15,7 @@ import BoldIcon from "../assets/svgs/bold.vue"
 import ItalicIcon from "../assets/svgs/italic.vue"
 import LinkIcon from "../assets/svgs/link.vue"
 import HeadingIcon from "../assets/svgs/heading.vue"
-import QouteIcon from "../assets/svgs/qoute.vue"
+import QuoteIcon from "../assets/svgs/quote.vue"
 import CodeIcon from "../assets/svgs/code.vue"
 import ImageIcon from "../assets/svgs/image.vue"
 export default {
@@ -26,7 +26,7 @@ export default {
         ImageIcon,
         ItalicIcon,
         LinkIcon,
-        QouteIcon,
+        QuoteIcon,
     },
     setup(props, context) {
         const customText = (type) => {

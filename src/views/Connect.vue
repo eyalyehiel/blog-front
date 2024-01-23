@@ -79,6 +79,7 @@
 import { computed, ref } from "vue"
 import { userService } from "../services/user-service.js"
 import { eventBus, showErrorMsg, showSuccessMsg } from "@/services/event-bus.service"
+import { useRouter } from "vue-router"
 
 export default {
     setup() {
@@ -86,6 +87,7 @@ export default {
         const username = ref("")
         const email = ref("")
         const password = ref("")
+        const router =useRouter()
 
         const signup = async () => {
             const userToSign = {
@@ -98,6 +100,7 @@ export default {
                 await userService.signup(userToSign)
                 eventBus.emit('updateHeader')
                 showSuccessMsg(`Welcome ${userToSign.username}`)
+                router.push('/')
             } catch (err) {
                 console.log("err", err)
             }
@@ -113,6 +116,7 @@ export default {
                 let loggedUser = await userService.login(userToLogin)
                 showSuccessMsg(`Welcome ${loggedUser.username}`)
                 eventBus.emit('updateHeader')
+                router.push('/')
             }catch(err){
                 showErrorMsg(err)
             }

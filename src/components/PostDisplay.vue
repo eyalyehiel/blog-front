@@ -1,7 +1,7 @@
 <template>
     <section class="post-display">
-        <h3>Post title</h3>
-        <span>isDraft</span>
+        <h3>{{ post.title }}</h3>
+        <span>{{ post.isDraft ? "Draft" : "Published" }}</span>
         <div class="display-wrapper">
             <span>Edit</span>
             <span>Delete</span>
@@ -10,17 +10,23 @@
 </template>
 
 <script>
+import { toRefs } from "vue"
+
 export default {
-    setup() {
-        return {}
+    props: {
+        post: Object,
+    },
+    setup(props) {
+        const { post } = toRefs(props)
+        return { post }
     },
 }
 </script>
 
 <style lang="scss" scoped>
-.post-display{
+.post-display {
     display: grid;
-    grid-template-columns: 1fr .1fr .5fr;
+    grid-template-columns: 1fr 0.1fr 0.5fr;
     background-color: white;
     padding-block: 20px;
     padding-inline: 15px;
@@ -31,6 +37,9 @@ export default {
         display: flex;
         justify-content: end;
         gap: 10px;
+        span{
+            cursor: pointer;
+        }
     }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <header :class="{ scrolled: isScrolled }">
         <section>
-            <h1>Blog<span>O</span>n</h1>
+            <h1 @click="refresh">Blog<span>O</span>n</h1>
 
             <ul @click="toggleMenu" v-if="menuOpen">
                 <li>
@@ -39,6 +39,7 @@ import connectIcon from "../assets/svgs/connect.vue"
 import profileIcon from "../assets/svgs/profile.vue"
 import { userService } from "@/services/user-service.js"
 import { eventBus, showErrorMsg, showSuccessMsg } from "@/services/event-bus.service"
+import { useRouter } from "vue-router"
 export default {
     components: {
         menuIcon,
@@ -51,6 +52,7 @@ export default {
         const menuOpen = ref(false)
         const isScrolled = ref(false)
         const user = ref(null)
+        const router = useRouter()
         onMounted(() => {
             if (window.innerWidth > 480) menuOpen.value = true
             window.addEventListener("scroll", () => {
@@ -74,12 +76,18 @@ export default {
                 user.value = null
                 
                 showSuccessMsg('You are logged out')
+                refresh()
             } catch (err) {
                 showErrorMsg(err)
             }
         }
 
-        return { toggleMenu, menuOpen, isScrolled, user, logout }
+        const refresh = () => {
+            router.push('/')
+            window.location.reload()
+        }
+
+        return { toggleMenu, menuOpen, isScrolled, user, logout,refresh }
     },
 }
 </script>

@@ -30,6 +30,8 @@
                 @addItalic="addItalic"
                 @addUrl="addUrl"
                 @addHeading="addHeading"
+                @addQuote="addQuote"
+                @addCode="addCode"
             />
             <textarea
                 @keydown.enter="addEnter"
@@ -79,6 +81,16 @@ export default {
             let pos = body.value.indexOf("__")
             textarea.value.selectionEnd = pos + 1
         }
+        const addCode = async () => {
+            body.value =
+                body.value.slice(0, textarea.value.selectionStart) +
+                "``" +
+                body.value.slice(textarea.value.selectionStart)
+            await nextTick()
+            textarea.value.focus()
+            let pos = body.value.indexOf("``")
+            textarea.value.selectionEnd = pos + 1
+        }
         const addBold = async () => {
             body.value =
                 body.value.slice(0, textarea.value.selectionStart) +
@@ -110,6 +122,17 @@ export default {
             textarea.value.selectionEnd = pos + 3
 
         }
+        const addQuote = async () => {
+            textarea.value.selectionStart = body.value.length
+            addEnter()
+            addEnter()
+            body.value += "\n\n-\t\n\n"
+            await nextTick()
+            textarea.value.focus()
+            let pos = body.value.indexOf(">")
+            textarea.value.selectionEnd = pos + 1
+
+        }
         const addEnter = () => {
             let pos = textarea.value.selectionStart
             enterPositions.value.push(pos)
@@ -135,20 +158,21 @@ export default {
         const addPost = async (toDraft) => {
             // let postBody = postService.manageBody(body.value)
             addEnters()
-            let userPosted = userService.getLoggedinUser()
+            // let userPosted = userService.getLoggedinUser()
             const post = {
                 title: title.value,
                 body: body.value,
                 tags: tags.value,
-                author: {
-                    _id: userPosted.id,
-                    username: userPosted.username,
-                    imgUrl: userPosted.imgUrl,
-                },
-                likes: 0,
-                comments: [],
-                createdAt: Date.now(),
-                isDraft: toDraft,
+                toDraft
+                // author: {
+                //     _id: userPosted.id,
+                //     username: userPosted.username,
+                //     imgUrl: userPosted.imgUrl,
+                // },
+                // likes: 0,
+                // comments: [],
+                // createdAt: Date.now(),
+                // isDraft: toDraft,
             }
             // if (
             //     title.value === "" ||
@@ -157,7 +181,7 @@ export default {
             // )
             //     return
             try {
-                if (!userPosted) throw new Error("You must login first")
+                // if (!userPosted) throw new Error("You must login first")
                 if (!title.value)
                     throw new Error("Please make sure you add title")
                 if (!body.value)
@@ -168,6 +192,7 @@ export default {
                 showSuccessMsg("Post Added!")
             } catch (err) {
                 showErrorMsg(err)
+                console.log(err);
             }
         }
         return {
@@ -185,6 +210,8 @@ export default {
             addUrl,
             addEnter,
             addHeading,
+            addQuote,
+            addCode
         }
     },
     components: { PostTags, BodyOptions },

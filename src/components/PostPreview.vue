@@ -18,7 +18,7 @@
             <PostTags :tags="tagsToShow" />
             <section class="post-stats">
                 <span>{{ post.comments.length }} comments</span>
-                <span>{{ post.likes }} likes</span>
+                <span @click="likePost">{{ post.userLiked.length }} likes</span>
             </section>
         </section>
     </section>
@@ -45,7 +45,10 @@ export default {
             const options = { month: "short", day: "numeric" }
             return new Intl.DateTimeFormat("en-US", options).format(date)
         })
-        return { post, tagsToShow, formattedDate }
+        const likePost = () => {
+            
+        }
+        return { post, tagsToShow, formattedDate,likePost }
     },
 }
 </script>

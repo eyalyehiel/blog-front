@@ -106,9 +106,11 @@ function getLoggedinUser() {
 //     return await update(user)
 // }
 async function addToUserPosts(miniPost) {
+    console.log(miniPost);
     const { _id } = getLoggedinUser()
     const user = await getById(_id)
     user.posts.push(miniPost)
+    console.log(user);
     return await update(user)
 }
 // async function removeFromUserPosts(postId) {

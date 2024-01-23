@@ -8,16 +8,16 @@
         <section class="wrapper">
             <section class="profile-stats">
                 <div class="post-count">
-                    <span>0</span>
-                    <span>posts published</span>
+                    <span> {{ user.posts.length }} </span>
+                    <span> posts published</span>
                 </div>
                 <div class="comments written">
-                    <span>0</span>
-                    <span>comments written</span>
+                    <span>{{sumComments}}</span>
+                    <span> comments written</span>
                 </div>
                 <div class="likes on posts">
-                    <span>0</span>
-                    <span>likes on posts</span>
+                    <span>{{sumLikes}}</span>
+                    <span> likes on posts</span>
                 </div>
             </section>
             <section class="posts-dashboard">
@@ -30,7 +30,7 @@
                     </select>
                 </section>
                 <section class="dashboard-list">
-                    <PostDisplay v-for="i in 3" :key="i" />
+                    <PostDisplay :post="post" v-for="post in user.posts" :key="post._id" />
                 </section>
             </section>
         </section>
@@ -40,15 +40,28 @@
 <script>
 import PostDisplay from "@/components/PostDisplay.vue"
 import { userService } from "@/services/user-service"
-import { onMounted, ref } from "vue"
-
+import { computed, onMounted, ref } from "vue"
+import { useRouter } from "vue-router"
 export default {
     setup() {
         const user = ref(null)
+        const router = useRouter()
         onMounted(() => {
             user.value = userService.getLoggedinUser()
+            if(!user.value) router.push('/')
+            console.log(user.value);
         })
-        return { user }
+        const sumComments = computed(()=>{
+            let sum = 0
+            user.value.posts.forEach(post => sum += post.comments.length)
+            return sum
+        })
+        const sumLikes = computed(()=>{
+            let sum = 0
+            user.value.posts.forEach(post => sum += post.userLiked.length)
+            return sum
+        })
+        return { user,sumComments ,sumLikes}
     },
     components: { PostDisplay },
 }
