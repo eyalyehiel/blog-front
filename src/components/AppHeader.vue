@@ -2,52 +2,35 @@
     <header :class="{ scrolled: isScrolled }">
         <section>
             <h1 @click="refresh">Blog<span>O</span>n</h1>
-
-            <ul @click="toggleMenu" v-if="menuOpen">
-                <li>
-                    <router-link to="/"> <homeIcon /> Home</router-link>
-                </li>
-                <li>
-                    <router-link to="/edit"> <addIcon /> Add</router-link>
-                </li>
-                <li>
-                    <router-link v-if="!user" to="/connect">
-                        <connectIcon /> Connect</router-link
-                    >
-                    <router-link v-else to="/profile">
-                        <profileIcon />
-                        {{ user.username }}
-                    </router-link>
-                </li>
-                <li v-if="user">
-                    <a @click="logout"> Logout</a>
-                </li>
-            </ul>
-            <button @click="toggleMenu">
-                <menuIcon />
+            <button
+                @click="router.push('/connect')"
+                class="connect-btn"
+                v-if="!user"
+            >
+                Connect
             </button>
+            <span v-else class="menu">
+                <img @click="toggleMenu" :src="user?.imgUrl" alt="" />
+                <ul @click="toggleMenu" v-if="menuOpen">
+                    <li><router-link to="/profile">Profile</router-link></li>
+                    <li><router-link to="/edit">Add post</router-link></li>
+                    <li @click="logout"><span>Logout</span></li>
+                </ul>
+            </span>
         </section>
     </header>
 </template>
 
 <script>
 import { onMounted, ref } from "vue"
-import menuIcon from "../assets/svgs/menu.vue"
-import homeIcon from "../assets/svgs/home.vue"
-import addIcon from "../assets/svgs/add.vue"
-import connectIcon from "../assets/svgs/connect.vue"
-import profileIcon from "../assets/svgs/profile.vue"
 import { userService } from "@/services/user-service.js"
-import { eventBus, showErrorMsg, showSuccessMsg } from "@/services/event-bus.service"
+import {
+    eventBus,
+    showErrorMsg,
+    showSuccessMsg,
+} from "@/services/event-bus.service"
 import { useRouter } from "vue-router"
 export default {
-    components: {
-        menuIcon,
-        homeIcon,
-        addIcon,
-        connectIcon,
-        profileIcon,
-    },
     setup() {
         const menuOpen = ref(false)
         const isScrolled = ref(false)
@@ -59,23 +42,19 @@ export default {
                 isScrolled.value = window.scrollY > 0
             })
             user.value = userService.getLoggedinUser()
-            eventBus.on('updateHeader', () => {
+            eventBus.on("updateHeader", () => {
                 user.value = userService.getLoggedinUser()
             })
         })
         const toggleMenu = () => {
-            if (window.innerWidth > 480) {
-                menuOpen.value = true
-                return
-            }
             menuOpen.value = !menuOpen.value
         }
         const logout = async () => {
             try {
                 await userService.logout()
                 user.value = null
-                
-                showSuccessMsg('You are logged out')
+
+                showSuccessMsg("You are logged out")
                 refresh()
             } catch (err) {
                 showErrorMsg(err)
@@ -83,11 +62,19 @@ export default {
         }
 
         const refresh = () => {
-            router.push('/')
-            window.location.reload()
+            router.push("/")
+            // window.location.reload()
         }
 
-        return { toggleMenu, menuOpen, isScrolled, user, logout,refresh }
+        return {
+            toggleMenu,
+            menuOpen,
+            isScrolled,
+            user,
+            logout,
+            refresh,
+            router,
+        }
     },
 }
 </script>

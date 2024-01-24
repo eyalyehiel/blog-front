@@ -56,12 +56,13 @@
 </template>
 
 <script>
-import { ref, nextTick } from "vue"
+import { ref, nextTick, onMounted } from "vue"
 import { postService } from "@/services/post-service.js"
 import PostTags from "@/components/PostTags.vue"
 import BodyOptions from "@/components/BodyOptions.vue"
 import { showErrorMsg, showSuccessMsg } from "@/services/event-bus.service.js"
 import { userService } from "@/services/user-service"
+import { useRoute } from "vue-router"
 export default {
     setup() {
         const textarea = ref("")
@@ -71,6 +72,19 @@ export default {
         const tag = ref("")
         const enterPositions = ref([])
         const uploader = ref("")
+        const route = useRoute()
+        onMounted(async () => {
+            try {
+                if (route.params.id) {
+                    const post = await postService.getById(route.params.id)
+                    title.value = post.title
+                    body.value = post.body
+                    tags.value = post.tags
+                }
+            } catch (err) {
+                console.log("failed to get post in edit post")
+            }
+        })
         const addItalic = async () => {
             body.value =
                 body.value.slice(0, textarea.value.selectionStart) +
@@ -154,32 +168,21 @@ export default {
             tag.value = ""
         }
         const addPost = async (toDraft) => {
-            // let postBody = postService.manageBody(body.value)
             addEnters()
             let userPosted = userService.getLoggedinUser()
             const post = {
                 title: title.value,
                 body: body.value,
                 tags: tags.value,
-                // toDraft,
                 author: {
                     _id: userPosted._id,
                     username: userPosted.username,
                     imgUrl: userPosted.imgUrl,
                 },
-                // likes: 0,
-                // comments: [],
-                // createdAt: Date.now(),
                 isDraft: toDraft,
             }
-            // if (
-            //     title.value === "" ||
-            //     body.value === "" ||
-            //     tags.value.length === 0
-            // )
-            //     return
+            if (route.params.id) post._id = route.params.id
             try {
-                // if (!userPosted) throw new Error("You must login first")
                 if (!title.value)
                     throw new Error("Please make sure you add title")
                 if (!body.value)
@@ -193,7 +196,7 @@ export default {
                     comments: savedPost.comments || [],
                     userLiked: savedPost.userLiked || [],
                     isDraft: savedPost.isDraft,
-                    author: { _id: savedPost.author._id}
+                    author: { _id: savedPost.author._id },
                 }
                 await userService.saveToUserPosts(miniPost)
                 showSuccessMsg("Post Added!")

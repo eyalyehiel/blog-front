@@ -22,7 +22,7 @@ header {
         font-family: montserrat, sans-serif;
         font-weight: 900;
         font-size: 32px;
-        span{
+        span {
             font-family: montserrat, sans-serif;
 
             background: linear-gradient(to right, #ffffff 50%, #ddd 50%, rgb(241 241 241));
@@ -42,70 +42,160 @@ header {
         }
     }
 
-    ul {
-        li {
-            display: flex;
-            padding-block-start: 10px;
-            padding-inline-start: 10px;
-            @media (max-width: 480px) {
-                padding-block-start: 0px;
-                display: block;
-                border-block-end: 1px solid #ddd;
-                a {
-                    padding-inline-start: 20px;
-                    padding-block: 20px;
-                    display: flex;
-                    align-items: center;
-                }
-            }
-            a {
-                text-transform: uppercase;
-                font-family: Arial, Helvetica, sans-serif;
-                text-decoration: none;
-                color: #8e8e8e;
-                font-size: 14px;
-                letter-spacing: 0.3px;
-                display: flex;
-                align-items: center;
-                cursor: pointer;
-                @media (min-width: 480px) {
-                    justify-content: center;
-                }
-                svg {
-                    fill: #8e8e8e;
-                    width: 16px;
-                    height: 16px;
-                }
-            }
+    .connect-btn {
+        display: flex;
+        align-self: center;
+        padding: 10px 20px;
+        border: 1px solid $clr2;
+        background-color: $bg-color;
+        border-radius: 5px;
+        color: $clr2;
+        font-weight: 600;
+        font-size: 14px;
+        letter-spacing: 0.3px;
+    }
+    .menu {
+        position: relative;
+        align-self: center;
+        img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            box-shadow: $box-shadow;
+            cursor: pointer;
         }
-        @media (max-width: 480px) {
+        ul {
+            color: $clr1;
+            // height: 100%;
+            top: 75px;
+            // left: 20px;
+            // right: 20px;
+            inset-inline: 20px;
             position: fixed;
-            background-color: white;
-            inset: 70px 0 0 0;
-            // z-index: 20;
+            background-color: $bg-color;
+            list-style-type: none;
             display: flex;
             flex-direction: column;
-        }
-        @media (min-width: 480px) {
-            display: flex;
-            list-style-type: none;
+            justify-content: stretch;
+            border: 1px solid #ddd;
+            box-shadow: $box-shadow;
+            border-radius: 5px;
+            padding: 5px;
+            li {
+                display: flex;
+                // flex: 1;
+                // border-bottom: 1px solid #ddd;
+                a,
+                span {
+                    padding: 10px;
+                    text-decoration: none;
+                    cursor: pointer;
+                    &:visited{
+                        color: $clr1;
+                    }
+                }
+            }
         }
     }
 
-    button {
-        display: flex;
-        background-color: white;
-        align-items: center;
-        border: 0;
-        cursor: pointer;
-        svg {
-            width: 44px;
-            height: 44px;
-            fill: #a4a4a4;
-        }
+    // ul {
+    //     li {
+    //         display: flex;
+    //         padding-block-start: 10px;
+    //         padding-inline-start: 10px;
+    //         @media (max-width: 480px) {
+    //             padding-block-start: 0px;
+    //             display: block;
+    //             border-block-end: 1px solid #ddd;
+    //             a {
+    //                 padding-inline-start: 20px;
+    //                 padding-block: 20px;
+    //                 display: flex;
+    //                 align-items: center;
+    //             }
+    //         }
+    //         a {
+    //             text-transform: uppercase;
+    //             font-family: Arial, Helvetica, sans-serif;
+    //             text-decoration: none;
+    //             color: #8e8e8e;
+    //             font-size: 14px;
+    //             letter-spacing: 0.3px;
+    //             display: flex;
+    //             align-items: center;
+    //             cursor: pointer;
+    //             @media (min-width: 480px) {
+    //                 justify-content: center;
+    //             }
+    //             svg {
+    //                 fill: #8e8e8e;
+    //                 width: 16px;
+    //                 height: 16px;
+    //             }
+    //         }
+    //     }
+    //     @media (max-width: 480px) {
+    //         position: fixed;
+    //         background-color: white;
+    //         inset: 70px 0 0 0;
+    //         // z-index: 20;
+    //         display: flex;
+    //         flex-direction: column;
+    //     }
+    //     @media (min-width: 480px) {
+    //         display: flex;
+    //         list-style-type: none;
+    //     }
+    // }
 
-        @media (min-width: 480px) {
-            display: none;
+    // button {
+    //     display: flex;
+    //     background-color: white;
+    //     align-items: center;
+    //     border: 0;
+    //     cursor: pointer;
+    //     svg {
+    //         width: 44px;
+    //         height: 44px;
+    //         fill: #a4a4a4;
+    //     }
+
+    //     @media (min-width: 480px) {
+    //         display: none;
+    //     }
+    // }
+}
+
+@media (min-width: 500px) {
+    header {
+        .menu {
+            ul {
+                height: max-content;
+                width: max-content;
+                position: absolute;
+                // border: 1px solid #ddd;
+                // box-shadow: $box-shadow;
+                // border-radius: 5px;
+                // padding: 5px;
+                top: 45px;
+                // left: -40p;
+                inset-inline: 0;
+                transform: translateX(calc(-100% + 40px));
+                // padding: 10px 20px;
+                li {
+                    a,
+                    span {
+                        padding-right: 100px;
+                        border-radius: $border-radius;
+                        width: 100%;
+                        &:hover {
+                            text-decoration: underline;
+                            background-color: rgb(235 236 252);
+                        }
+                    }
+                }
+            }
         }
     }
 }

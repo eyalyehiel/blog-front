@@ -14,7 +14,7 @@ const router = createRouter({
             component: Home,
         },
         {
-            path: "/edit",
+            path: "/edit/:id?",
             name: "Edit",
             component: EditPost,
         },

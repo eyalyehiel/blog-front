@@ -3,22 +3,26 @@
         <h3>{{ post.title }}</h3>
         <span>{{ post.isDraft ? "Draft" : "Published" }}</span>
         <div class="display-wrapper">
-            <span>Edit</span>
-            <span>Delete</span>
+            <span @click="router.push(`/edit/${post._id}`)">Edit</span>
+            <span @click="removePost">Delete</span>
         </div>
     </section>
 </template>
 
 <script>
 import { toRefs } from "vue"
-
+import { useRouter } from "vue-router"
 export default {
     props: {
         post: Object,
     },
     setup(props) {
+        const router = useRouter()
         const { post } = toRefs(props)
-        return { post }
+        const removePost = () => {
+            
+        }
+        return { post, router ,removePost}
     },
 }
 </script>
@@ -37,7 +41,7 @@ export default {
         display: flex;
         justify-content: end;
         gap: 10px;
-        span{
+        span {
             cursor: pointer;
         }
     }
