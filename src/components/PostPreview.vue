@@ -34,7 +34,7 @@ export default {
     components: {
         PostTags,
     },
-    setup(props) {
+    setup(props,context) {
         const { post } = toRefs(props)
         const tagsToShow = computed(() => {
             return post.value.tags.slice(0, 3)
@@ -46,7 +46,7 @@ export default {
             return new Intl.DateTimeFormat("en-US", options).format(date)
         })
         const likePost = () => {
-            
+            context.emit('likePost',post.value._id)
         }
         return { post, tagsToShow, formattedDate,likePost }
     },

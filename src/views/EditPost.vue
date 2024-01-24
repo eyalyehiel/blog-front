@@ -120,7 +120,6 @@ export default {
             textarea.value.focus()
             let pos = body.value.indexOf("##")
             textarea.value.selectionEnd = pos + 3
-
         }
         const addQuote = async () => {
             textarea.value.selectionStart = body.value.length
@@ -131,7 +130,6 @@ export default {
             textarea.value.focus()
             let pos = body.value.indexOf(">")
             textarea.value.selectionEnd = pos + 1
-
         }
         const addEnter = () => {
             let pos = textarea.value.selectionStart
@@ -158,21 +156,21 @@ export default {
         const addPost = async (toDraft) => {
             // let postBody = postService.manageBody(body.value)
             addEnters()
-            // let userPosted = userService.getLoggedinUser()
+            let userPosted = userService.getLoggedinUser()
             const post = {
                 title: title.value,
                 body: body.value,
                 tags: tags.value,
-                toDraft
-                // author: {
-                //     _id: userPosted.id,
-                //     username: userPosted.username,
-                //     imgUrl: userPosted.imgUrl,
-                // },
+                // toDraft,
+                author: {
+                    _id: userPosted._id,
+                    username: userPosted.username,
+                    imgUrl: userPosted.imgUrl,
+                },
                 // likes: 0,
                 // comments: [],
                 // createdAt: Date.now(),
-                // isDraft: toDraft,
+                isDraft: toDraft,
             }
             // if (
             //     title.value === "" ||
@@ -188,11 +186,20 @@ export default {
                     throw new Error("Please make sure you add body")
                 if (!tags.value.length)
                     throw new Error("Please make sure you add at least one tag")
-                await postService.save(post)
+                const savedPost = await postService.save(post)
+                const miniPost = {
+                    _id: savedPost._id,
+                    title: savedPost.title,
+                    comments: savedPost.comments || [],
+                    userLiked: savedPost.userLiked || [],
+                    isDraft: savedPost.isDraft,
+                    author: { _id: savedPost.author._id}
+                }
+                await userService.saveToUserPosts(miniPost)
                 showSuccessMsg("Post Added!")
             } catch (err) {
                 showErrorMsg(err)
-                console.log(err);
+                console.log(err)
             }
         }
         return {
@@ -211,7 +218,7 @@ export default {
             addEnter,
             addHeading,
             addQuote,
-            addCode
+            addCode,
         }
     },
     components: { PostTags, BodyOptions },

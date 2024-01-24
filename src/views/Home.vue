@@ -1,8 +1,12 @@
 <template>
     <main class="home">
-        <PostList v-if="posts.length" :posts="posts" />
+        <PostList @likePost="likePost" v-if="posts.length" :posts="posts" />
         <section v-else class="post-list">
-            <section v-for="i in 4" :key="i" class="skeleton-8qepc0ou7sv"></section>
+            <section
+                v-for="i in 4"
+                :key="i"
+                class="skeleton-8qepc0ou7sv"
+            ></section>
         </section>
         <PostFilter @filter="setFilter" :tags="postTags" />
     </main>
@@ -46,8 +50,24 @@ export default {
             filterBy.value = newFilter
             await loadPosts()
         }
-
-        return { posts, postTags, setFilter }
+        const likePost = async (id) => {
+            try {
+                const postLiked = posts.value.find((post) => post._id === id)
+                const savedPost = await postService.likePost(postLiked)
+                const miniPost = {
+                    _id: savedPost._id,
+                    title: savedPost.title,
+                    comments: savedPost.comments || [],
+                    userLiked: savedPost.userLiked || [],
+                    isDraft: savedPost.isDraft,
+                    author: { _id: savedPost.author._id}
+                }
+                await userService.saveToUserPosts(miniPost)
+            } catch (err) {
+                console.log("failed to like post home.vue")
+            }
+        }
+        return { posts, postTags, setFilter, likePost }
     },
     components: { PostList, PostFilter },
 }

@@ -112,7 +112,6 @@ export default {
                 password: password.value
             }
             try{
-                // console.log(userToLogin);
                 let loggedUser = await userService.login(userToLogin)
                 showSuccessMsg(`Welcome ${loggedUser.username}`)
                 eventBus.emit('updateHeader')

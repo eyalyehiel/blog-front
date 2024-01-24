@@ -1,6 +1,6 @@
 <template>
     <section class="post-list">
-        <PostPreview :post="post" v-for="post in posts" :key="post.id"/>
+        <PostPreview @likePost="likePost" :post="post" v-for="post in posts" :key="post.id"/>
     </section>
 </template>
 
@@ -12,10 +12,12 @@ export default {
     props:{
         posts: Array
     },
-    setup(props) {
+    setup(props,context) {
         const { posts } = toRefs(props)
-
-        return { posts }
+        const likePost = (id) =>{
+            context.emit('likePost',id)
+        }
+        return { posts,likePost }
     },
     components: { PostPreview },
 }

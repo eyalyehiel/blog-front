@@ -19,7 +19,7 @@ export const userService = {
     update,
     // setWishlist,
     // getTripsByUserId,
-    addToUserPosts,
+    saveToUserPosts,
     // getPostsByUserId,
     // removeFromUserPosts,
     // getOrdersByUserId,
@@ -51,7 +51,6 @@ async function update(user) {
     return user
 }
 async function login(userCred) {
-    // console.log(userCred);
     const user = await httpService.post("auth/login", userCred)
     if (user) {
         // showSuccessMsg(`Welcome ${user.username}`)
@@ -105,12 +104,17 @@ function getLoggedinUser() {
 //     user.wishlist.push(miniPost)
 //     return await update(user)
 // }
-async function addToUserPosts(miniPost) {
-    console.log(miniPost);
-    const { _id } = getLoggedinUser()
-    const user = await getById(_id)
-    user.posts.push(miniPost)
-    console.log(user);
+async function saveToUserPosts(miniPost) {
+    const user = await getById(miniPost.author._id)
+    const postToSave = user.posts.find((post) => post._id === miniPost._id)
+    if (!postToSave) {
+        user.posts.push(miniPost)
+    } else {
+        user.posts = user.posts.map((post) => {
+            if (post._id === miniPost._id) return miniPost
+            else return post
+        })
+    }
     return await update(user)
 }
 // async function removeFromUserPosts(postId) {

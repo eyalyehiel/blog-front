@@ -12,6 +12,7 @@ export const postService = {
     save,
     remove,
     manageBody,
+    likePost,
     // getEmptyPost,
     // addPostMsg
 }
@@ -39,22 +40,22 @@ async function remove(postId) {
     // await storageService.remove(STORAGE_KEY, postId)
     return httpService.delete(`post/${postId}`)
 }
-async function save({ title, body, tags, toDraft }) {
+async function save(post) {
     const user = userService.getLoggedinUser()
-    var post = {
-        title,
-        body,
-        tags,
-        author: {
-            _id: user._id,
-            username: user.username,
-            imgUrl: user.imgUrl,
-        },
-        userLiked: [],
-        comments: [],
-        createdAt: Date.now(),
-        isDraft: toDraft,
-    }
+    // var post = {
+    //     title,
+    //     body,
+    //     tags,
+    //     author: {
+    //         _id: user._id,
+    //         username: user.username,
+    //         imgUrl: user.imgUrl,
+    //     },
+    //     // userLiked: [],
+    //     // comments: [],
+    //     // createdAt: Date.now(),
+    //     isDraft: toDraft,
+    // }
     var savedPost
     if (post._id) {
         // savedPost = await storageService.put(STORAGE_KEY, post)
@@ -64,16 +65,15 @@ async function save({ title, body, tags, toDraft }) {
         // post.owner = userService.getLoggedinUser()
         // savedPost = await storageService.post(STORAGE_KEY, post)
         savedPost = await httpService.post("post", post)
-        console.log(savedPost)
     }
-     const miniPost = {
-        _id: savedPost._id,
-        title: savedPost.title,
-        comments: savedPost.comments || [],
-        userLiked: savedPost.userLiked || [],
-        isDraft: savedPost.isDraft
-    }
-    await userService.addToUserPosts(miniPost)
+    // const miniPost = {
+    //     _id: savedPost._id,
+    //     title: savedPost.title,
+    //     comments: savedPost.comments || [],
+    //     userLiked: savedPost.userLiked || [],
+    //     isDraft: savedPost.isDraft,
+    // }
+    // await userService.addToUserPosts(miniPost)
     return savedPost
 }
 
@@ -172,7 +172,6 @@ function _addQoute(body) {
             return `<blockquote>${formattedContent}</blockquote><br/><br/>${rest}`
         }
     )
-    console.log(bodyToEdit)
     return bodyToEdit
 }
 // async function addPostMsg(postId, txt) {
@@ -186,3 +185,12 @@ function _addQoute(body) {
 //         price: utilService.getRandomIntInclusive(1000, 9000),
 //     }
 // }
+async function likePost(post) {
+    try {
+        const { username, _id } = userService.getLoggedinUser()
+        post.userLiked.push({ username, _id })
+        return await save(post)
+    } catch (err) {
+        console.log("failed to like post in post service front end")
+    }
+}
