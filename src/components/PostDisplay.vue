@@ -1,10 +1,14 @@
 <template>
     <section class="post-display">
-        <h3>{{ post.title }}</h3>
-        <span>{{ post.isDraft ? "Draft" : "Published" }}</span>
+        <div class="first-wrapper">
+            <h3>{{ post.title }}</h3>
+            <span class="draft">{{
+                post.isDraft ? "Draft" : "Published"
+            }}</span>
+        </div>
         <div class="display-wrapper">
             <span @click="router.push(`/edit/${post._id}`)">Edit</span>
-            <span @click="removePost">Delete</span>
+            <span class="delete" @click="removePost">Delete</span>
         </div>
     </section>
 </template>
@@ -19,10 +23,8 @@ export default {
     setup(props) {
         const router = useRouter()
         const { post } = toRefs(props)
-        const removePost = () => {
-            
-        }
-        return { post, router ,removePost}
+        const removePost = () => {}
+        return { post, router, removePost }
     },
 }
 </script>
@@ -30,19 +32,66 @@ export default {
 <style lang="scss" scoped>
 .post-display {
     display: grid;
-    grid-template-columns: 1fr 0.1fr 0.5fr;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     background-color: white;
-    padding-block: 20px;
-    padding-inline: 15px;
+    padding: 16px;
     &:hover {
-        background-color: rgb(213, 213, 213);
+        background-color: #f9f9f9;
+    }
+    h3 {
+        // font-size: xx-large;
+        // text-decoration: none;
+        // color: rgb(65, 65, 65);
+        // font-weight: 700;
+        &:hover {
+            cursor: pointer;
+            color: #3b49df;
+        }
+    }
+    .first-wrapper{
+        grid-row: 1/-1;
+        display: grid;
+    }
+    .draft {
+        background-color: #fcd34d;
+        display: flex;
+        align-items: center;
+        padding: 3px;
+        font-size: 14px;
+        border-radius: 5px;
+        width: min-content;
     }
     .display-wrapper {
+        grid-row: 2;
         display: flex;
         justify-content: end;
         gap: 10px;
         span {
+            font-size: 15px;
             cursor: pointer;
+            border-radius: 5px;
+            padding: 7px;
+            &.delete {
+                color: #dc2626;
+            }
+            &:hover {
+                background-color: #00000009;
+            }
+        }
+    }
+}
+@media (min-width: 500px) {
+    .post-display {
+        grid-template-columns: 1fr 0.5fr;
+        grid-template-rows: 1fr;
+        .first-wrapper {
+            align-items: center;
+            display: grid;
+            grid-template-columns: 1fr 0.1fr;
+        }
+        .display-wrapper{
+            grid-row: 1;
         }
     }
 }

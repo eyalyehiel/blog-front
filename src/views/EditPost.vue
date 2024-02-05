@@ -14,7 +14,7 @@
                 v-model="title"
             />
             <section class="mini-wrapper">
-                <PostTags :tags="tags" />
+                <PostTags :tags="tags" class="edit" />
                 <input
                     autocomplete="off"
                     :required="tags.length < 0"
@@ -26,15 +26,8 @@
                 />
             </section>
             <BodyOptions
-                @addBold="addBold"
-                @addItalic="addItalic"
-                @addUrl="addUrl"
-                @addHeading="addHeading"
-                @addQuote="addQuote"
-                @addCode="addCode"
             />
             <textarea
-                @keydown.enter="addEnter"
                 autocomplete="off"
                 id="textarea"
                 ref="textarea"
@@ -85,79 +78,79 @@ export default {
                 console.log("failed to get post in edit post")
             }
         })
-        const addItalic = async () => {
-            body.value =
-                body.value.slice(0, textarea.value.selectionStart) +
-                "__" +
-                body.value.slice(textarea.value.selectionStart)
-            await nextTick()
-            textarea.value.focus()
-            let pos = body.value.indexOf("__")
-            textarea.value.selectionEnd = pos + 1
-        }
-        const addCode = async () => {
-            body.value =
-                body.value.slice(0, textarea.value.selectionStart) +
-                "``" +
-                body.value.slice(textarea.value.selectionStart)
-            await nextTick()
-            textarea.value.focus()
-            let pos = body.value.indexOf("``")
-            textarea.value.selectionEnd = pos + 1
-        }
-        const addBold = async () => {
-            body.value =
-                body.value.slice(0, textarea.value.selectionStart) +
-                "****" +
-                body.value.slice(textarea.value.selectionStart)
-            await nextTick()
-            textarea.value.focus()
-            let pos = body.value.indexOf("****")
-            textarea.value.selectionEnd = pos + 2
-        }
-        const addUrl = async () => {
-            body.value =
-                body.value.slice(0, textarea.value.selectionStart) +
-                "[](url)" +
-                body.value.slice(textarea.value.selectionStart)
-            await nextTick()
-            textarea.value.focus()
-            let pos = body.value.indexOf("(url)")
-            textarea.value.setSelectionRange(pos + 1, pos + 4)
-        }
-        const addHeading = async () => {
-            textarea.value.selectionStart = body.value.length
-            addEnter()
-            addEnter()
-            body.value += "\n\n##\t\n\n"
-            await nextTick()
-            textarea.value.focus()
-            let pos = body.value.indexOf("##")
-            textarea.value.selectionEnd = pos + 3
-        }
-        const addQuote = async () => {
-            textarea.value.selectionStart = body.value.length
-            addEnter()
-            addEnter()
-            body.value += "\n\n-\t\n\n"
-            await nextTick()
-            textarea.value.focus()
-            let pos = body.value.indexOf(">")
-            textarea.value.selectionEnd = pos + 1
-        }
-        const addEnter = () => {
-            let pos = textarea.value.selectionStart
-            enterPositions.value.push(pos)
-        }
-        const addEnters = () => {
-            let bodyToEdit = body.value.split("")
-            let enterCount = 0
-            enterPositions.value.forEach((enter) => {
-                enterCount++
-                bodyToEdit.splice(enter + enterCount, 0, "<br/>")
-            })
-            body.value = bodyToEdit.join("")
-        }
+        // const addItalic = async () => {
+        //     body.value =
+        //         body.value.slice(0, textarea.value.selectionStart) +
+        //         "__" +
+        //         body.value.slice(textarea.value.selectionStart)
+        //     await nextTick()
+        //     textarea.value.focus()
+        //     let pos = body.value.indexOf("__")
+        //     textarea.value.selectionEnd = pos + 1
+        // }
+        // const addCode = async () => {
+        //     body.value =
+        //         body.value.slice(0, textarea.value.selectionStart) +
+        //         "``" +
+        //         body.value.slice(textarea.value.selectionStart)
+        //     await nextTick()
+        //     textarea.value.focus()
+        //     let pos = body.value.indexOf("``")
+        //     textarea.value.selectionEnd = pos + 1
+        // }
+        // const addBold = async () => {
+        //     body.value =
+        //         body.value.slice(0, textarea.value.selectionStart) +
+        //         "****" +
+        //         body.value.slice(textarea.value.selectionStart)
+        //     await nextTick()
+        //     textarea.value.focus()
+        //     let pos = body.value.indexOf("****")
+        //     textarea.value.selectionEnd = pos + 2
+        // }
+        // const addUrl = async () => {
+        //     body.value =
+        //         body.value.slice(0, textarea.value.selectionStart) +
+        //         "[](url)" +
+        //         body.value.slice(textarea.value.selectionStart)
+        //     await nextTick()
+        //     textarea.value.focus()
+        //     let pos = body.value.indexOf("(url)")
+        //     textarea.value.setSelectionRange(pos + 1, pos + 4)
+        // }
+        // const addHeading = async () => {
+        //     textarea.value.selectionStart = body.value.length
+        //     addEnter()
+        //     addEnter()
+        //     body.value += "\n\n##\t\n\n"
+        //     await nextTick()
+        //     textarea.value.focus()
+        //     let pos = body.value.indexOf("##")
+        //     textarea.value.selectionEnd = pos + 3
+        // }
+        // const addQuote = async () => {
+        //     textarea.value.selectionStart = body.value.length
+        //     addEnter()
+        //     addEnter()
+        //     body.value += "\n\n-\t\n\n"
+        //     await nextTick()
+        //     textarea.value.focus()
+        //     let pos = body.value.indexOf(">")
+        //     textarea.value.selectionEnd = pos + 1
+        // }
+        // const addEnter = () => {
+        //     let pos = textarea.value.selectionStart
+        //     enterPositions.value.push(pos)
+        // }
+        // const addEnters = () => {
+        //     let bodyToEdit = body.value.split("")
+        //     let enterCount = 0
+        //     enterPositions.value.forEach((enter) => {
+        //         enterCount++
+        //         bodyToEdit.splice(enter + enterCount, 0, "<br/>")
+        //     })
+        //     body.value = bodyToEdit.join("")
+        // }
         const browseFiles = () => {
             document.getElementById("uploader").click()
         }
@@ -168,7 +161,7 @@ export default {
             tag.value = ""
         }
         const addPost = async (toDraft) => {
-            addEnters()
+            // addEnters()
             let userPosted = userService.getLoggedinUser()
             const post = {
                 title: title.value,
@@ -214,14 +207,14 @@ export default {
             addPost,
             uploader,
             browseFiles,
-            addBold,
+            // addBold,
             textarea,
-            addItalic,
-            addUrl,
-            addEnter,
-            addHeading,
-            addQuote,
-            addCode,
+            // addItalic,
+            // addUrl,
+            // addEnter,
+            // addHeading,
+            // addQuote,
+            // addCode,
         }
     },
     components: { PostTags, BodyOptions },

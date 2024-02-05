@@ -48,6 +48,7 @@ export default {
         const router = useRouter()
         onMounted(() => {
             user.value = userService.getLoggedinUser()
+            console.log(user.value);
             if(!user.value) router.push('/')
         })
         const sumComments = computed(()=>{

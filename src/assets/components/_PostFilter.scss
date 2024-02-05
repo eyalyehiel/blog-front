@@ -14,21 +14,30 @@
             }
         }
     }
-    .tags{
-        background-color: rgba(255,255,255,1);
-        border-radius: 3px;
-        padding: 1.25rem;
-        box-shadow: 0 0 1px rgba(23, 23, 23, 0.05);
+    .tags-wrapper{
         display: flex;
+        flex-direction: column;
         gap: 10px;
-        flex-wrap: wrap;
-        .tags-header {
+        .tags-header{
             font-weight: 700;
-        }
-        .tag {
-            cursor: pointer;
+            padding-inline-start: 1.25rem;
         }
     }
+    // .tags{
+    //     background-color: rgba(255,255,255,1);
+    //     border-radius: 3px;
+    //     padding: 1.25rem;
+    //     box-shadow: 0 0 1px rgba(23, 23, 23, 0.05);
+    //     display: flex;
+    //     gap: 10px;
+    //     flex-wrap: wrap;
+    //     .tags-header {
+    //         font-weight: 700;
+    //     }
+    //     .tag {
+    //         cursor: pointer;
+    //     }
+    // }
 }
 
 @media(max-width:500px){

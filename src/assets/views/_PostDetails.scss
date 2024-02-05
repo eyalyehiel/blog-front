@@ -21,7 +21,7 @@
             aspect-ratio: 31/13;
             object-fit: cover;
         }
-        .wrapper{
+        .wrapper {
             padding: 1.25rem;
             display: flex;
             flex-direction: column;
@@ -38,6 +38,46 @@
                 background-color: #ddd;
                 padding: 1px 3px;
                 border-radius: 5px;
+            }
+        }
+        .add-comment {
+            border-top: 1px solid #e8e8e8;
+            padding: 32px 64px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            form {
+                gap: 10px;
+                display: flex;
+                flex-direction: column;
+                textarea {
+                    resize: none;
+                    outline: 0;
+                    border: 1px solid #d4d4d4;
+                    border-radius: 0.375rem;
+                    // box-shadow: $box-shadow;
+                    font-size: large;
+                    padding: 10px;
+                    font-weight: 400;
+                    letter-spacing: 0.3px;
+                    transition: height 0.5s ease;
+                    overflow-y: hidden;
+                }
+                button {
+                    align-self: self-start;
+                    background-color: $clr2;
+                    border: 0;
+                    border-radius: 5px;
+                    padding: 10px 20px;
+                    font-weight: 500;
+                    font-size: 16px;
+                    color: white;
+                    // letter-spacing: 0.2px;
+                    &:hover {
+                        cursor: pointer;
+                        background-color: $clr2-hover;
+                    }
+                }
             }
         }
     }

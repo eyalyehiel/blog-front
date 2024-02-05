@@ -37,10 +37,6 @@ export default {
         const user = ref(null)
         const router = useRouter()
         onMounted(() => {
-            if (window.innerWidth > 480) menuOpen.value = true
-            window.addEventListener("scroll", () => {
-                isScrolled.value = window.scrollY > 0
-            })
             user.value = userService.getLoggedinUser()
             eventBus.on("updateHeader", () => {
                 user.value = userService.getLoggedinUser()

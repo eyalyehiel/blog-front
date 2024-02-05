@@ -24,7 +24,7 @@ export default {
         const posts = ref([])
         const filterBy = ref({
             tag: "",
-            order: "likes",
+            order: "new",
         })
 
         onMounted(async () => {

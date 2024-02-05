@@ -17,38 +17,38 @@
                 >Oldest</span
             >
         </div>
-        <div class="tags">
+        <div class="tags-wrapper">
             <span class="tags-header">Popular Tags:</span>
-            <span
-                @click="filterBy.tag = tag"
-                class="tag"
-                v-if="tags"
-                v-for="tag in tags"
-                :key="tag"
-                >#{{ tag }}</span
-            >
+            <PostTags @filter="setFilterBy" :tags="tags" class="filter" />
         </div>
     </section>
 </template>
 
 <script>
 import { onMounted, watch, ref } from "vue"
-
+import PostTags from "./PostTags.vue"
 export default {
+    components: {
+        PostTags,
+    },
     props: {
         tags: Array,
     },
-    setup(props,context) {
+    setup(props, context) {
         const { tags } = props
         const filterBy = ref({
-            tag: '',
-            order: 'likes'
+            tag: "",
+            order: "new",
         })
 
-        watch(filterBy.value,()=> {
-            context.emit('filter',filterBy.value)
+        watch(filterBy.value, () => {
+            context.emit("filter", filterBy.value)
         })
-        return { tags, filterBy }
+
+        const setFilterBy = (tag) => {
+            filterBy.value.tag = tag
+        }
+        return { tags, filterBy, setFilterBy }
     },
 }
 </script>

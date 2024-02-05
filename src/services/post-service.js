@@ -18,7 +18,7 @@ export const postService = {
 }
 window.cs = postService
 
-async function query(filterBy = { tag: "", order: "likes" }) {
+async function query(filterBy = { tag: "", order: "new" }) {
     return httpService.get(STORAGE_KEY, filterBy)
 
     // var posts = await storageService.query(STORAGE_KEY)
@@ -79,101 +79,112 @@ async function save(post) {
 
 function manageBody(body) {
     let bodyToEdit = body
-    let bodyArray = []
+    var bodyArray = []
     bodyToEdit = _addBold(bodyToEdit)
-    bodyToEdit = _addItalic(bodyToEdit)
-    bodyToEdit = _addUrl(bodyToEdit)
-    bodyToEdit = _addHeading(bodyToEdit)
-    bodyToEdit = _addQoute(bodyToEdit)
-    bodyToEdit = _addCode(bodyToEdit)
+    // bodyToEdit = _addItalic(bodyToEdit)
+    // bodyToEdit = _addUrl(bodyToEdit)
+    // bodyToEdit = _addHeading(bodyToEdit)
+    // bodyToEdit = _addQoute(bodyToEdit)
+    // bodyToEdit = _addCode(bodyToEdit)
     return bodyToEdit
 }
 function _addBold(body) {
-    let bodyToEdit = body
-    if (!RegExp.escape) {
-        RegExp.escape = function (s) {
-            return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")
-        }
-    }
-    const subEsc = RegExp.escape("**")
-    const regex = new RegExp(subEsc, "g")
-    const matches = body.match(regex) ? Object.keys(body.match(regex)) : []
-    for (var i = 0; i < matches.length; i++) {
-        bodyToEdit = bodyToEdit.replace(
-            "**",
-            i % 2 === 0 ? "<strong>" : "</strong>"
-        )
-    }
+    const regex = /\*\*(.*?)\*\*/g;
+    const matches = [];
+    let match;
 
-    return bodyToEdit
-}
-function _addItalic(body) {
-    let bodyToEdit = body
-    if (!RegExp.escape) {
-        RegExp.escape = function (s) {
-            return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")
-        }
+    while ((match = regex.exec(body)) !== null) {
+        matches.push(match[1]);
+        // bodyArray.push(match[1])
     }
-    const subEsc = RegExp.escape("_")
-    const regex = new RegExp(subEsc, "g")
-    const matches = body.match(regex) ? Object.keys(body.match(regex)) : []
-    for (var i = 0; i < matches.length; i++) {
-        bodyToEdit = bodyToEdit.replace("_", i % 2 === 0 ? "<em>" : "</em>")
-    }
-    return bodyToEdit
-}
-function _addCode(body) {
-    let bodyToEdit = body
-    if (!RegExp.escape) {
-        RegExp.escape = function (s) {
-            return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")
-        }
-    }
-    const subEsc = RegExp.escape("`")
-    const regex = new RegExp(subEsc, "g")
-    const matches = body.match(regex) ? Object.keys(body.match(regex)) : []
-    for (var i = 0; i < matches.length; i++) {
-        bodyToEdit = bodyToEdit.replace("`", i % 2 === 0 ? "<code>" : "</code>")
-    }
-    return bodyToEdit
-}
-function _addUrl(body) {
-    let bodyToEdit = body
-    const myString =
-        "This is a [sample link](https://example.com) and another [link](https://example2.com)."
+    console.log(matches);
+    return matches;
+    // let bodyToEdit = body
+    // if (!RegExp.escape) {
+    //     RegExp.escape = function (s) {
+    //         return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")
+    //     }
+    // }
+    // const subEsc = RegExp.escape("**")
+    // const regex = new RegExp(subEsc, "g")
+    // const matches = body.match(regex) ? Object.keys(body.match(regex)) : []
+    // console.log(matches);
+    // for (var i = 0; i < matches.length; i++) {
+    //     bodyToEdit = bodyToEdit.replace(
+    //         "**",
+    //         i % 2 === 0 ? "<strong>" : "</strong>"
+    //     )
+    // }
 
-    const pattern = /\[([^\]]+)\]\(([^)]+)\)/g
-
-    bodyToEdit = body.replace(pattern, (match, linkText, url) => {
-        return `<a href="${url}" target="_blank">${linkText}</a>`
-    })
-
-    return bodyToEdit
+    // return bodyToEdit
 }
-function _addHeading(body) {
-    let bodyToEdit = body
+// function _addItalic(body) {
+//     let bodyToEdit = body
+//     if (!RegExp.escape) {
+//         RegExp.escape = function (s) {
+//             return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")
+//         }
+//     }
+//     const subEsc = RegExp.escape("_")
+//     const regex = new RegExp(subEsc, "g")
+//     const matches = body.match(regex) ? Object.keys(body.match(regex)) : []
+//     for (var i = 0; i < matches.length; i++) {
+//         bodyToEdit = bodyToEdit.replace("_", i % 2 === 0 ? "<em>" : "</em>")
+//     }
+//     return bodyToEdit
+// }
+// function _addCode(body) {
+//     let bodyToEdit = body
+//     if (!RegExp.escape) {
+//         RegExp.escape = function (s) {
+//             return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")
+//         }
+//     }
+//     const subEsc = RegExp.escape("`")
+//     const regex = new RegExp(subEsc, "g")
+//     const matches = body.match(regex) ? Object.keys(body.match(regex)) : []
+//     for (var i = 0; i < matches.length; i++) {
+//         bodyToEdit = bodyToEdit.replace("`", i % 2 === 0 ? "<code>" : "</code>")
+//     }
+//     return bodyToEdit
+// }
+// function _addUrl(body) {
+//     let bodyToEdit = body
+//     const myString =
+//         "This is a [sample link](https://example.com) and another [link](https://example2.com)."
 
-    bodyToEdit = bodyToEdit.replace(
-        /##\s*([^\n]+)(\n.*)*/,
-        function (match, heading, rest) {
-            const formattedContent = heading.trim().replace(/\n/g, "<br/>\n")
-            return `<h3>${formattedContent}</h3><br/><br/>${rest}`
-        }
-    )
+//     const pattern = /\[([^\]]+)\]\(([^)]+)\)/g
 
-    return bodyToEdit
-}
-function _addQoute(body) {
-    let bodyToEdit = body
-    bodyToEdit = bodyToEdit.replace(
-        /-\s*([^\n]+)(\n.*)*/,
-        function (match, heading, rest) {
-            const formattedContent = heading.trim().replace(/\n/g, "<br/>\n")
-            return `<blockquote>${formattedContent}</blockquote><br/><br/>${rest}`
-        }
-    )
-    return bodyToEdit
-}
+//     bodyToEdit = body.replace(pattern, (match, linkText, url) => {
+//         return `<a href="${url}" target="_blank">${linkText}</a>`
+//     })
+
+//     return bodyToEdit
+// }
+// function _addHeading(body) {
+//     let bodyToEdit = body
+
+//     bodyToEdit = bodyToEdit.replace(
+//         /##\s*([^\n]+)(\n.*)*/,
+//         function (match, heading, rest) {
+//             const formattedContent = heading.trim().replace(/\n/g, "<br/>\n")
+//             return `<h3>${formattedContent}</h3><br/><br/>${rest}`
+//         }
+//     )
+
+//     return bodyToEdit
+// }
+// function _addQoute(body) {
+//     let bodyToEdit = body
+//     bodyToEdit = bodyToEdit.replace(
+//         /-\s*([^\n]+)(\n.*)*/,
+//         function (match, heading, rest) {
+//             const formattedContent = heading.trim().replace(/\n/g, "<br/>\n")
+//             return `<blockquote>${formattedContent}</blockquote><br/><br/>${rest}`
+//         }
+//     )
+//     return bodyToEdit
+// }
 // async function addPostMsg(postId, txt) {
 //     const savedMsg = await httpService.post(`posts/${postId}/msg`, {txt})
 //     return savedMsg

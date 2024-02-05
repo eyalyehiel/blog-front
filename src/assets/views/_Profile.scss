@@ -1,9 +1,10 @@
 .profile {
     padding-block: 10px;
-    height: calc(100vh - 70px);
+    // height: calc(100vh - 70px);
     display: flex;
     flex-direction: column;
     align-items: baseline;
+    margin-bottom: 10px;
     > * {
         padding-inline: 20px;
     }
@@ -32,10 +33,12 @@
     }
     .wrapper {
         display: grid;
-        grid-template-columns: 1fr 3fr;
+        grid-template-columns: 1fr;
         align-self: stretch;
         gap: 10px;
+        // padding-inline: 0;
         .profile-stats {
+            // padding-inline: 20;
             display: flex;
             align-self: baseline;
             flex-direction: column;
@@ -54,12 +57,12 @@
         .posts-dashboard {
             display: grid;
             gap: 10px;
-            .dashboard-header{
+            .dashboard-header {
                 display: flex;
                 // flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
-                select{
+                select {
                     border-radius: $border-radius;
                     border: 2px solid $clr2;
                     padding: 10px;
@@ -67,17 +70,16 @@
                 }
             }
         }
-        .dashboard-list{
-
-            >*:not(:last-child){
+        .dashboard-list {
+            > *:not(:last-child) {
                 border-block-end: 1px solid #ddd;
             }
 
-            :first-child{
+            :first-child {
                 border-start-start-radius: 5px;
                 border-start-end-radius: 5px;
             }
-            :last-child{
+            :last-child {
                 border-end-start-radius: 5px;
                 border-end-end-radius: 5px;
             }
@@ -89,6 +91,9 @@
     .profile {
         .profile-header {
             margin-inline: 20px;
+        }
+        .wrapper {
+            grid-template-columns: 1fr 3fr;
         }
     }
 }
