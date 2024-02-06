@@ -4,7 +4,7 @@
             <img v-if="post.imgUrl" :src="post.imgUrl" alt="" />
             <div class="wrapper">
                 <h2>{{ post.title }}</h2>
-                <PostTags :tags="post.tags" />
+                <PostTags class="preview" :tags="post.tags" />
                 <p v-html="editedBody"></p>
             </div>
             <div class="add-comment">
@@ -32,6 +32,7 @@ export default {
         const rows = ref(2)
         onMounted(async () => {
             post.value = await postService.getById(id)
+            // console.log(post.value.body);
         })
 
         const editedBody = computed(() => {

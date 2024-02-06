@@ -79,26 +79,147 @@ async function save(post) {
 
 function manageBody(body) {
     let bodyToEdit = body
-    var bodyArray = []
-    bodyToEdit = _addBold(bodyToEdit)
-    // bodyToEdit = _addItalic(bodyToEdit)
-    // bodyToEdit = _addUrl(bodyToEdit)
-    // bodyToEdit = _addHeading(bodyToEdit)
-    // bodyToEdit = _addQoute(bodyToEdit)
-    // bodyToEdit = _addCode(bodyToEdit)
-    return bodyToEdit
+    let bodyArray = []
+    const charsToFind = ["**", "_", "`"]
+
+    while (bodyToEdit.length > 0) {
+        let foundChar = null
+        let loops = bodyToEdit.length
+        let str = null
+        for (let i = 0; i < loops; i++) {
+            let char = bodyToEdit[i]
+            // if(char === "*" || char === "_" || char === "\n"){
+            //     bodyArray.push(bodyToEdit.substring(0, i))
+            //     // bodyToEdit = bodyToEdit.substring(i)
+            // }
+            switch (char) {
+                case "*":
+                    bodyArray.push(
+                        bodyToEdit.substring(0, bodyToEdit.indexOf("**"))
+                    )
+                    bodyToEdit = bodyToEdit.substring(bodyToEdit.indexOf("**"))
+                    bodyToEdit = bodyToEdit.replace("**", "")
+                    str = bodyToEdit.substring(0, bodyToEdit.indexOf("**"))
+                    bodyArray.push("<strong>" + str + "</strong>")
+                    bodyToEdit = bodyToEdit.replace(str + "**", "")
+                    i = 0
+                    break
+                case "_":
+                    bodyArray.push(bodyToEdit.substring(0, i))
+                    bodyToEdit = bodyToEdit.substring(i)
+                    bodyToEdit = bodyToEdit.replace("_", "")
+                    i = bodyToEdit.indexOf("_")
+                    str = bodyToEdit.substring(0, i)
+                    bodyArray.push("<em>" + str + "</em>")
+                    bodyToEdit = bodyToEdit.replace(str + "_", "")
+                    i = 0
+                    break
+                case "\n":
+                    bodyArray.push(
+                        bodyToEdit.substring(0, bodyToEdit.indexOf("\n"))
+                    )
+                    bodyToEdit = bodyToEdit.substring(bodyToEdit.indexOf("\n"))
+                    bodyArray.push("<br/>")
+                    bodyToEdit = bodyToEdit.replace("\n", "")
+                    i = 0
+                    break
+                case "`":
+                    bodyArray.push(bodyToEdit.substring(0, i))
+                    bodyToEdit = bodyToEdit.substring(i)
+                    bodyToEdit = bodyToEdit.replace("`", "")
+                    i = bodyToEdit.indexOf("`")
+                    str = bodyToEdit.substring(0, i)
+                    bodyArray.push("<code>" + str + "</code>")
+                    bodyToEdit = bodyToEdit.replace(str + "`", "")
+                    i = 0
+                    break
+                case "[":
+                    bodyArray.push(bodyToEdit.substring(0, i))
+                    bodyToEdit = bodyToEdit.substring(i)
+                    bodyToEdit = bodyToEdit.replace("[", "")
+                    i = bodyToEdit.indexOf("]")
+                    str = bodyToEdit.substring(0, i)
+                    bodyToEdit = bodyToEdit.replace(str + "]", "")
+                    bodyToEdit = bodyToEdit.replace("(", "")
+                    i = bodyToEdit.indexOf(")")
+                    let link = bodyToEdit.substring(0, i)
+                    bodyArray.push(`<a href="${link}">` + str + "</a>")
+                    bodyToEdit = bodyToEdit.replace(link + ")", "")
+                    i = 0
+                    break
+                case "#":
+                    bodyArray.push(bodyToEdit.substring(0, i))
+                    bodyToEdit = bodyToEdit.substring(i)
+                    bodyToEdit = bodyToEdit.replace("##", "")
+                    i = bodyToEdit.indexOf("\n")
+                    str = bodyToEdit.substring(0, i)
+                    bodyArray.push("<h2>" + str + "</h2>")
+                    bodyToEdit = bodyToEdit.replace(str + "\n", "")
+                    i = 0
+                    break
+                case ">":
+                    bodyArray.push(bodyToEdit.substring(0, i))
+                    bodyToEdit = bodyToEdit.substring(i)
+                    bodyToEdit = bodyToEdit.replace(">", "")
+                    i = bodyToEdit.indexOf("\n")
+                    str = bodyToEdit.substring(0, i)
+                    bodyArray.push("<blockquote>" + str + "</blockquote>")
+                    bodyToEdit = bodyToEdit.replace(str + "\n", "")
+                    i = 0
+                    break
+            }
+
+            loops = bodyToEdit.length
+        }
+
+        // charsToFind.some((char) => {
+        //     let index = bodyToEdit.indexOf(char)
+        //     if (index !== -1) {
+        //         let str = ''
+        //         foundChar = char
+        //         bodyArray.push(bodyToEdit.substring(0, index))
+        //         bodyToEdit = bodyToEdit.substring(index)
+        //         console.log('bodytoedit',bodyToEdit);
+        //         switch (foundChar) {
+        //             case "**":
+        //                 bodyToEdit = bodyToEdit.replace("**", "")
+        //                 index = bodyToEdit.indexOf("**")
+        //                 str = bodyToEdit.substring(0, index)
+        //                 bodyArray.push("<strong>" + str + "</strong>")
+        //                 bodyToEdit = bodyToEdit.replace(str + "**", "")
+        //                 break
+        //             case "_":
+        //                 bodyToEdit = bodyToEdit.replace("_", "")
+        //                 index = bodyToEdit.indexOf("_")
+        //                 str = bodyToEdit.substring(0, index)
+        //                 bodyArray.push("<em>" + str + "</em>")
+        //                 bodyToEdit = bodyToEdit.replace(str +"_", "")
+        //                 break
+        //         }
+        //         console.log(bodyToEdit);
+        //         // bodyToEdit = bodyToEdit.substring(index)
+        //         console.log(bodyToEdit);
+        //         return true
+        //     }
+        //     return false
+        // })
+        // bodyArray.push(bodyToEdit)
+    }
+    bodyToEdit = ""
+
+    return bodyArray.join("")
 }
 function _addBold(body) {
-    const regex = /\*\*(.*?)\*\*/g;
-    const matches = [];
-    let match;
+    const regex = /\*\*(.*?)\*\*/g
+    const matches = []
+    let match
 
     while ((match = regex.exec(body)) !== null) {
-        matches.push(match[1]);
+        matches.push(match[1])
         // bodyArray.push(match[1])
     }
-    console.log(matches);
-    return matches;
+    console.log(matches)
+    return matches
     // let bodyToEdit = body
     // if (!RegExp.escape) {
     //     RegExp.escape = function (s) {

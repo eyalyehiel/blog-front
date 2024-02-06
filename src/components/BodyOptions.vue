@@ -1,11 +1,18 @@
 <template>
     <section class="body-options">
-        <button @click.prevent="customText('addBold')"><BoldIcon /></button>
-        <button @click.prevent="customText('addItalic')"><ItalicIcon /></button>
-        <button @click.prevent="customText('addUrl')"><LinkIcon /></button>
-        <button @click.prevent="customText('addHeading')"><HeadingIcon /></button>
-        <button @click.prevent="customText('addQuote')"><QuoteIcon /></button>
-        <button @click.prevent="customText('addCode')"><CodeIcon /></button>
+        <button @click.prevent="customText('addBold')"><BoldIcon />
+            <ToolTip text="Bold"/>
+        </button>
+        <button @click.prevent="customText('addItalic')"><ItalicIcon />
+            <ToolTip text="Italic"/></button>
+        <button @click.prevent="customText('addUrl')"><LinkIcon />
+            <ToolTip text="Link"/></button>
+        <button @click.prevent="customText('addHeading')"><HeadingIcon />
+            <ToolTip text="Heading"/></button>
+        <button @click.prevent="customText('addQuote')"><QuoteIcon />
+            <ToolTip text="Quote"/></button>
+        <button @click.prevent="customText('addCode')"><CodeIcon />
+            <ToolTip text="Code"/></button>
         <button><ImageIcon /></button>
     </section>
 </template>
@@ -18,16 +25,18 @@ import HeadingIcon from "../assets/svgs/heading.vue"
 import QuoteIcon from "../assets/svgs/quote.vue"
 import CodeIcon from "../assets/svgs/code.vue"
 import ImageIcon from "../assets/svgs/image.vue"
+import ToolTip from "./ToolTip.vue"
 export default {
     components: {
-        BoldIcon,
-        CodeIcon,
-        HeadingIcon,
-        ImageIcon,
-        ItalicIcon,
-        LinkIcon,
-        QuoteIcon,
-    },
+    BoldIcon,
+    CodeIcon,
+    HeadingIcon,
+    ImageIcon,
+    ItalicIcon,
+    LinkIcon,
+    QuoteIcon,
+    ToolTip
+},
     setup(props, context) {
         const customText = (type) => {
             context.emit(type)
@@ -45,6 +54,7 @@ export default {
     padding-inline-start: 12px;
     padding-block: 5px;
     button {
+        position: relative;
         margin-inline-end: 4px;
         padding: 8px;
         background-color: transparent;
@@ -54,9 +64,13 @@ export default {
         border: 0;
         border-radius: 4px;
         &:hover {
+            cursor: pointer;
             background-color: rgb(230 231 247);
             svg {
                 fill: rgb(47 58 178);
+            }
+            .tooltip{
+                display: block;
             }
         }
     }
