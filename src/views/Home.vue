@@ -25,6 +25,7 @@ export default {
         const filterBy = ref({
             tag: "",
             order: "new",
+            isDraft: false,
         })
 
         onMounted(async () => {
@@ -47,7 +48,7 @@ export default {
             })
         }
         const setFilter = async (newFilter) => {
-            filterBy.value = newFilter
+            filterBy.value = { ...filterBy.value, ...newFilter }
             await loadPosts()
         }
         const likePost = async (id) => {
@@ -60,14 +61,14 @@ export default {
                     comments: savedPost.comments || [],
                     userLiked: savedPost.userLiked || [],
                     isDraft: savedPost.isDraft,
-                    author: { _id: savedPost.author._id}
+                    author: { _id: savedPost.author._id },
                 }
                 await userService.saveToUserPosts(miniPost)
             } catch (err) {
                 console.log("failed to like post home.vue")
             }
         }
-        return { posts, postTags, setFilter, likePost }
+        return { posts, postTags, setFilter, likePost, filterBy }
     },
     components: { PostList, PostFilter },
 }

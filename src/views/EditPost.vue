@@ -25,7 +25,14 @@
                     @keydown.enter.prevent="addTag"
                 />
             </section>
-            <BodyOptions @addItalic="addItalic" @addBold="addBold" @addQuote="addQuote" @addUrl="addUrl" @addCode="addCode" @addHeading="addHeading"/>
+            <BodyOptions
+                @addItalic="addItalic"
+                @addBold="addBold"
+                @addQuote="addQuote"
+                @addUrl="addUrl"
+                @addCode="addCode"
+                @addHeading="addHeading"
+            />
             <textarea
                 autocomplete="off"
                 id="textarea"
@@ -62,7 +69,6 @@ export default {
         const body = ref("")
         const tags = ref([])
         const tag = ref("")
-        const enterPositions = ref([])
         const uploader = ref("")
         const route = useRoute()
         onMounted(async () => {
@@ -127,27 +133,12 @@ export default {
         }
         const addQuote = async () => {
             textarea.value.selectionStart = body.value.length
-            // addEnter()
-            // addEnter()
             body.value += "\n\n>\t\n\n"
             await nextTick()
             textarea.value.focus()
             let pos = body.value.indexOf(">")
             textarea.value.selectionEnd = pos + 1
         }
-        // const addEnter = () => {
-        //     let pos = textarea.value.selectionStart
-        //     enterPositions.value.push(pos)
-        // }
-        // const addEnters = () => {
-        //     let bodyToEdit = body.value.split("")
-        //     let enterCount = 0
-        //     enterPositions.value.forEach((enter) => {
-        //         enterCount++
-        //         bodyToEdit.splice(enter + enterCount, 0, "<br/>")
-        //     })
-        //     body.value = bodyToEdit.join("")
-        // }
         const browseFiles = () => {
             document.getElementById("uploader").click()
         }

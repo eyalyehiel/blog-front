@@ -23,14 +23,14 @@
             <section class="posts-dashboard">
                 <section class="dashboard-header">
                     <h2>Posts</h2>
-                    <select>
-                        <option value="">All</option>
-                        <option value="">Draft</option>
-                        <option value="">Published</option>
+                    <select v-model="isDraft" >
+                        <option value="null" selected>All</option>
+                        <option value="true">Draft</option>
+                        <option value="false">Published</option>
                     </select>
                 </section>
                 <section class="dashboard-list">
-                    <PostDisplay :post="post" v-for="post in user.posts" :key="post._id" />
+                    <PostDisplay :post="post" v-for="post in postsToShow" :key="post._id" />
                 </section>
             </section>
         </section>
@@ -46,10 +46,20 @@ export default {
     setup() {
         const user = ref(null)
         const router = useRouter()
+        const isDraft = ref(null)
         onMounted(() => {
             user.value = userService.getLoggedinUser()
             console.log(user.value);
             if(!user.value) router.push('/')
+        })
+        const postsToShow = computed(()=>{
+            return user.value.posts.filter(post => {
+                if(isDraft.value === "null"){
+                    return true
+                } else if(isDraft.value === "true"){
+                    return post.isDraft === true
+                } else return post.isDraft === false
+            })
         })
         const sumComments = computed(()=>{
             let sum = 0
@@ -61,7 +71,7 @@ export default {
             user.value.posts.forEach(post => sum += post.userLiked.length)
             return sum
         })
-        return { user,sumComments ,sumLikes}
+        return { user,sumComments ,sumLikes,isDraft,postsToShow}
     },
     components: { PostDisplay },
 }
