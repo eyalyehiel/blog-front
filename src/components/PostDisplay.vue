@@ -20,10 +20,12 @@ export default {
     props: {
         post: Object,
     },
-    setup(props) {
+    setup(props,context) {
         const router = useRouter()
         const { post } = toRefs(props)
-        const removePost = () => {}
+        const removePost = () => {
+            context.emit("remove",post.value._id)
+        }
         return { post, router, removePost }
     },
 }

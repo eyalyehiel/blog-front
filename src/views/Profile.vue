@@ -12,25 +12,30 @@
                     <span> posts published</span>
                 </div>
                 <div class="comments written">
-                    <span>{{sumComments}}</span>
+                    <span>{{ sumComments }}</span>
                     <span> comments written</span>
                 </div>
                 <div class="likes on posts">
-                    <span>{{sumLikes}}</span>
+                    <span>{{ sumLikes }}</span>
                     <span> likes on posts</span>
                 </div>
             </section>
             <section class="posts-dashboard">
                 <section class="dashboard-header">
                     <h2>Posts</h2>
-                    <select v-model="isDraft" >
+                    <select v-model="isDraft">
                         <option value="null" selected>All</option>
                         <option value="true">Draft</option>
                         <option value="false">Published</option>
                     </select>
                 </section>
                 <section class="dashboard-list">
-                    <PostDisplay :post="post" v-for="post in postsToShow" :key="post._id" />
+                    <PostDisplay
+                        @remove="removePost"
+                        :post="post"
+                        v-for="post in postsToShow"
+                        :key="post._id"
+                    />
                 </section>
             </section>
         </section>
@@ -39,6 +44,8 @@
 
 <script>
 import PostDisplay from "@/components/PostDisplay.vue"
+import { showSuccessMsg } from "@/services/event-bus.service"
+import { postService } from "@/services/post-service"
 import { userService } from "@/services/user-service"
 import { computed, onMounted, ref } from "vue"
 import { useRouter } from "vue-router"
@@ -49,29 +56,39 @@ export default {
         const isDraft = ref(null)
         onMounted(() => {
             user.value = userService.getLoggedinUser()
-            console.log(user.value);
-            if(!user.value) router.push('/')
+            // console.log(user.value)
+            if (!user.value) router.push("/")
         })
-        const postsToShow = computed(()=>{
-            return user.value.posts.filter(post => {
-                if(isDraft.value === "null"){
+        const postsToShow = computed(() => {
+            return user.value.posts.filter((post) => {
+                if (isDraft.value === "null") {
                     return true
-                } else if(isDraft.value === "true"){
+                } else if (isDraft.value === "true") {
                     return post.isDraft === true
                 } else return post.isDraft === false
             })
         })
-        const sumComments = computed(()=>{
+        const sumComments = computed(() => {
             let sum = 0
-            user.value.posts.forEach(post => sum += post.comments.length)
+            user.value.posts.forEach((post) => (sum += post.comments.length))
             return sum
         })
-        const sumLikes = computed(()=>{
+        const sumLikes = computed(() => {
             let sum = 0
-            user.value.posts.forEach(post => sum += post.userLiked.length)
+            user.value.posts.forEach((post) => (sum += post.userLiked.length))
             return sum
         })
-        return { user,sumComments ,sumLikes,isDraft,postsToShow}
+        const removePost = async (id)=>{
+            try{
+                await postService.remove(id)
+                await userService.removeFromUserPosts(id)
+                user.value = userService.getLoggedinUser()
+                showSuccessMsg('Post removed')
+            } catch(err){
+                console.log(err);
+            }
+        }
+        return { user, sumComments, sumLikes, isDraft, postsToShow, removePost }
     },
     components: { PostDisplay },
 }

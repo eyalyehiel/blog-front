@@ -21,7 +21,7 @@ export const userService = {
     // getTripsByUserId,
     saveToUserPosts,
     // getPostsByUserId,
-    // removeFromUserPosts,
+    removeFromUserPosts,
     // getOrdersByUserId,
 }
 window.userService = userService
@@ -117,10 +117,10 @@ async function saveToUserPosts(miniPost) {
     }
     return await update(user)
 }
-// async function removeFromUserPosts(postId) {
-//     const { _id } = getLoggedinUser()
-//     const user = await getById(_id)
-//     const idx = user.posts.findIndex((post) => post._id === postId)
-//     user.posts.splice(idx, 1)
-//     return await update(user)
-// }
+async function removeFromUserPosts(postId) {
+    const { _id } = getLoggedinUser()
+    const user = await getById(_id)
+    const idx = user.posts.findIndex((post) => post._id === postId)
+    user.posts.splice(idx, 1)
+    return await update(user)
+}
