@@ -80,11 +80,14 @@ async function save(post) {
 function manageBody(body) {
     let bodyToEdit = body
     let bodyArray = []
+    const originalCharts = "abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ"
+    let loops = bodyToEdit.length
+    let originalLength = bodyToEdit.length
     while (bodyToEdit.length > 0) {
-        let loops = bodyToEdit.length
         let str = null
         for (let i = 0; i < loops; i++) {
             let char = bodyToEdit[i]
+            if (originalCharts.includes(char)) continue
             switch (char) {
                 case "*":
                     bodyArray.push(
@@ -162,9 +165,15 @@ function manageBody(body) {
                     break
             }
             loops = bodyToEdit.length
+            // console.log(i);
+            if (originalLength - 1 === i) {
+                // bodyArray.push(bodyToEdit)
+                loops = 0
+            }
         }
+        bodyArray.push(bodyToEdit)
+        bodyToEdit = ""
     }
-    bodyToEdit = ""
     return bodyArray.join("")
 }
 

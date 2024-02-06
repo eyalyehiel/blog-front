@@ -2,7 +2,7 @@
     <form class="edit-post">
         <section class="wrapper">
             <div class="image-upload">
-                <input type="file" name="" id="uploader" />
+                <input @change="handleFile" type="file" name="" id="uploader" />
                 <span @click="browseFiles">Add a cover image</span>
             </div>
             <input
@@ -45,7 +45,7 @@
         </section>
         <section class="btns">
             <button class="publish" @click.prevent="addPost(false)">
-                Publish
+                {{ route.params.id ? "Update" : "Publish"}}
             </button>
             <button class="save" @click.prevent="addPost(true)">
                 Save draft
@@ -62,6 +62,7 @@ import BodyOptions from "@/components/BodyOptions.vue"
 import { showErrorMsg, showSuccessMsg } from "@/services/event-bus.service.js"
 import { userService } from "@/services/user-service"
 import { useRoute } from "vue-router"
+import {uploadImg} from "../services/upload-service.js"
 export default {
     setup() {
         const textarea = ref("")
@@ -69,6 +70,8 @@ export default {
         const body = ref("")
         const tags = ref([])
         const tag = ref("")
+        const imgUrl = ref("")
+        const isLoading = ref(false)
         const uploader = ref("")
         const route = useRoute()
         onMounted(async () => {
@@ -83,6 +86,15 @@ export default {
                 console.log("failed to get post in edit post")
             }
         })
+        const handleFile = async (ev) => {
+            let file
+            file = ev.target.files[0]
+            
+            isLoading.value = true
+            imgUrl.value = await uploadImg(file)
+            console.log(imgUrl.value.url);
+            isLoading.value = false
+        }
         const addItalic = async () => {
             body.value =
                 body.value.slice(0, textarea.value.selectionStart) +
@@ -152,6 +164,7 @@ export default {
             // addEnters()
             let userPosted = userService.getLoggedinUser()
             const post = {
+                imgUrl: imgUrl.value.url,
                 title: title.value,
                 body: body.value,
                 tags: tags.value,
@@ -187,6 +200,7 @@ export default {
             }
         }
         return {
+            route,
             title,
             body,
             tags,
@@ -199,7 +213,7 @@ export default {
             textarea,
             addItalic,
             addUrl,
-            // addEnter,
+            handleFile,
             addHeading,
             addQuote,
             addCode,
