@@ -1,6 +1,6 @@
 <template>
     <main class="home">
-        <PostList @likePost="likePost" v-if="posts.length" :posts="posts" />
+        <PostList @toggleLike="toggleLike" v-if="posts.length" :posts="posts" />
         <section v-else class="post-list">
             <section
                 v-for="i in 4"
@@ -37,6 +37,7 @@ export default {
             }
         })
         const loadPosts = async () => {
+            posts.value = []
             const res = await postService.query(filterBy.value)
             posts.value = res.posts
         }
@@ -51,10 +52,10 @@ export default {
             filterBy.value = { ...filterBy.value, ...newFilter }
             await loadPosts()
         }
-        const likePost = async (id) => {
+        const toggleLike = async (id) => {
             try {
                 const postLiked = posts.value.find((post) => post._id === id)
-                const savedPost = await postService.likePost(postLiked)
+                const savedPost = await postService.toggleLike(postLiked)
                 const miniPost = {
                     _id: savedPost._id,
                     title: savedPost.title,
@@ -68,7 +69,7 @@ export default {
                 console.log("failed to like post home.vue")
             }
         }
-        return { posts, postTags, setFilter, likePost, filterBy }
+        return { posts, postTags, setFilter, toggleLike, filterBy }
     },
     components: { PostList, PostFilter },
 }

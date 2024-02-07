@@ -1,6 +1,11 @@
 <template>
     <section class="post-preview">
-        <img v-if="post.imgUrl" :src="post.imgUrl" alt="" />
+        <img
+            v-if="post.imgUrl"
+            @click="router.push(`/post/${post._id}`)"
+            :src="post.imgUrl"
+            alt=""
+        />
         <section class="wrapper">
             <section class="post-author">
                 <img
@@ -20,7 +25,7 @@
             </div>
             <section class="post-stats">
                 <span>{{ post.comments.length }} comments</span>
-                <span @click="likePost">{{ post.userLiked.length }} likes</span>
+                <span @click="toggleLike">{{ post.userLiked.length }} likes</span>
             </section>
         </section>
     </section>
@@ -29,6 +34,7 @@
 <script>
 import { computed, toRefs } from "vue"
 import PostTags from "./PostTags.vue"
+import { useRouter } from "vue-router"
 export default {
     props: {
         post: Object,
@@ -37,6 +43,7 @@ export default {
         PostTags,
     },
     setup(props, context) {
+        const router = useRouter()
         const { post } = toRefs(props)
         const tagsToShow = computed(() => {
             return post.value.tags.slice(0, 3)
@@ -47,10 +54,10 @@ export default {
             const options = { month: "short", day: "numeric" }
             return new Intl.DateTimeFormat("en-US", options).format(date)
         })
-        const likePost = () => {
-            context.emit("likePost", post.value._id)
+        const toggleLike = () => {
+            context.emit("toggleLike", post.value._id)
         }
-        return { post, tagsToShow, formattedDate, likePost }
+        return { post, tagsToShow, formattedDate, toggleLike, router }
     },
 }
 </script>

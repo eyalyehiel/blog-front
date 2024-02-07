@@ -1,7 +1,7 @@
 <template>
     <section class="post-display">
         <div class="first-wrapper">
-            <h3>{{ post.title }}</h3>
+            <h3 @click="router.push(`/post/${post._id}`)">{{ post.title }}</h3>
             <span class="draft">{{
                 post.isDraft ? "Draft" : "Published"
             }}</span>

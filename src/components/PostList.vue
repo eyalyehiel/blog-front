@@ -1,6 +1,6 @@
 <template>
     <section class="post-list">
-        <PostPreview @likePost="likePost" :post="post" v-for="post in posts" :key="post.id"/>
+        <PostPreview @toggleLike="toggleLike" :post="post" v-for="post in posts" :key="post.id"/>
     </section>
 </template>
 
@@ -14,10 +14,10 @@ export default {
     },
     setup(props,context) {
         const { posts } = toRefs(props)
-        const likePost = (id) =>{
-            context.emit('likePost',id)
+        const toggleLike = (id) =>{
+            context.emit('toggleLike',id)
         }
-        return { posts,likePost }
+        return { posts,toggleLike }
     },
     components: { PostPreview },
 }

@@ -12,7 +12,7 @@ export const postService = {
     save,
     remove,
     manageBody,
-    likePost,
+    toggleLike,
     // getEmptyPost,
     // addPostMsg
 }
@@ -139,7 +139,9 @@ function manageBody(body) {
                     bodyToEdit = bodyToEdit.replace("(", "")
                     i = bodyToEdit.indexOf(")")
                     let link = bodyToEdit.substring(0, i)
-                    bodyArray.push(`<a href="${link}">` + str + "</a>")
+                    bodyArray.push(
+                        `<a href="${link}" target="_blank">` + str + "</a>"
+                    )
                     bodyToEdit = bodyToEdit.replace(link + ")", "")
                     i = 0
                     break
@@ -177,10 +179,21 @@ function manageBody(body) {
     return bodyArray.join("")
 }
 
-async function likePost(post) {
+async function toggleLike(post) {
     try {
         const { username, _id } = userService.getLoggedinUser()
-        post.userLiked.push({ username, _id })
+        const isUserLiked = post.userLiked.find(
+            (user) => user.username === username && user._id === _id
+        )
+        if (isUserLiked) {
+            post.userLiked = post.userLiked.filter(
+                (user) =>
+                    user.username !== isUserLiked.username &&
+                    user._id !== isUserLiked._id
+            )
+        } else {
+            post.userLiked.push({ username, _id })
+        }
         return await save(post)
     } catch (err) {
         console.log("failed to like post in post service front end")
