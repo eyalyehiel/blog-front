@@ -29,7 +29,7 @@
                         <option value="false">Published</option>
                     </select>
                 </section>
-                <section class="dashboard-list">
+                <section v-if="postsToShow" class="dashboard-list">
                     <PostDisplay
                         @remove="removePost"
                         :post="post"

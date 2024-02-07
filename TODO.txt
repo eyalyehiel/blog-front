@@ -20,15 +20,15 @@
 // FILTER BY ----- DONE
 // ADD AUTH ----- DONE
 // ADD COMMENTS
-// ADD MORE FUNCTIONS TO EDIT BLOG 
+// ADD MORE FUNCTIONS TO EDIT BLOG ---- DONE
 // MAKE OPTION TO SAVE BLOG ------ DONE
-// PROFILE PAGE
+// PROFILE PAGE ----- DONE
 // OPTIONS TO EDIT PERSONAL INFO AND BROWSE SAVED POSTS
 // OPTION TO LIKE POSTS ------DONE
 
 //ADD SKELETON TEMPLATE ------- DONE
 
 // BUG LIST:
-1. fix bug user can like post unlimited times
-2. fix ui in profile when user has zero posts
+1. fix bug user can like post unlimited times ---- DONE
+2. fix ui in profile when user has zero posts ----- DONE
 3. fix filter by likes

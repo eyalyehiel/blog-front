@@ -27,10 +27,10 @@ function saveToStorage(key, value) {
 function setStyleMode() {
     const currentHour = new Date().getHours()
     const root = document.documentElement
-
-    if (currentHour > 18 || currentHour < 7) {
+    if (currentHour > 17 || currentHour < 7) {
         root.classList.add("dark")
     } else {
         root.classList.add("light")
     }
+    console.log("theme changed")
 }

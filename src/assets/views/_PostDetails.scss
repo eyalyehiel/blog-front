@@ -44,14 +44,26 @@
         .add-comment {
             // #e8e8e8
             border-top: 1px solid var(--img-button-color);
-            padding: 32px 64px;
+            padding: 16px 32px;
             display: flex;
             flex-direction: column;
             gap: 10px;
             form {
                 gap: 10px;
                 display: flex;
-                flex-direction: column;
+                // flex-direction: column;
+                img{
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    border: 1px solid var(--tag-shadow-preview);
+                }
+                .mini-wrapper {
+                    flex: 1;
+                    gap: 10px;
+                    display: flex;
+                    flex-direction: column;
+                }
                 textarea {
                     background-color: var(--body-color);
                     resize: none;
@@ -83,6 +95,11 @@
                     }
                 }
             }
+            .comments-list{
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     }
 }
@@ -91,5 +108,9 @@
     .post-details {
         padding-inline: 20px;
         grid-template-columns: minmax(auto, 660px) 1fr;
+
+        &.add-comment{
+            padding: 32px 64px;
+        }
     }
 }
