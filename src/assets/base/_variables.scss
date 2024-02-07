@@ -1,6 +1,5 @@
-
 // Background color for sections
-$bg-color: rgba(255, 255, 255, 1);
+// var(--bg-color): rgba(255, 255, 255, 1);
 
 // Box shadow
 $box-shadow: rgba(23, 23, 23, 0.05) 0px 0px 0px 1px;
@@ -9,6 +8,47 @@ $box-shadow: rgba(23, 23, 23, 0.05) 0px 0px 0px 1px;
 $border-radius: 3px;
 
 //color
-$clr1: rgb(65, 65, 65);
+// var(--color1): rgb(65, 65, 65);
 $clr2: #3b49df;
 $clr2-hover: #2f3ab2;
+
+:root {
+    &.light {
+        --bg-color: rgba(255, 255, 255, 1);
+        --body-color: rgb(241 241 241);
+        --color1: rgb(65, 65, 65);
+        --border-ul: #ddd;
+        --menu-hover: rgb(235 236 252);
+        --stats-hover: rgba(0, 0, 0, 0.035);
+        --img-button-color: #d6d6d7;
+        --options-color: #f9f9f9;
+        --svg-color: rgb(47 58 178);
+        --svg-hover: rgb(230 231 247);
+        --tag-hover-preview: rgb(243 243 243);
+        --tag-shadow-preview: rgba(23, 23, 23, 0.05);
+        --tag-hover-filter: #e2e3f3;
+        --tag-hover-color: #2f3ab2;
+        --tooltip-bg: rgba(23 23 23/0.9);
+        --display-hover : #f9f9f9;
+        --display-h3: #000000;
+    }
+    &.dark {
+        --bg-color: rgb(23, 23, 23);
+        --body-color: rgb(0 0 0);
+        --color1: rgb(250, 250, 250);
+        --border-ul: #6a6a6a;
+        --menu-hover: #2b2867;
+        --stats-hover: rgba(255, 255, 255, 0.035);
+        --img-button-color: #6a6a6a;
+        --options-color: #090909;
+        --svg-color: rgb(250, 250, 250);
+        --svg-hover: rgb(39 36 99);
+        --tag-hover-preview: rgb(35 35 35);
+        --tag-shadow-preview: rgba(250, 250, 250, 0.5);
+        --tag-hover-filter: rgb(37 34 97);
+        --tag-hover-color: #a5b4fc;
+        --tooltip-bg: rgba(255 255 255/0.9);
+        --display-hover : #090909;
+        --display-h3: #3b49df;
+    }
+}

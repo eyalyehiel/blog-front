@@ -1,6 +1,7 @@
 <template>
     <section v-if="msgToShow" class="user-msg" :class="msgToShow?.type">
         {{ msgToShow?.txt }}
+        <!-- TEST SOME -->
     </section>
 </template>
 
@@ -29,8 +30,12 @@ export default {
 .user-msg {
     position: fixed;
     // display: flex;
-    right: 10px;
-    bottom: 10px;
+    // right: 10px;
+    // bottom: 10px;
+    right: 50%;
+    transform: translateX(50%) translateY(-10px);
+    bottom: 0;
+    transition: all .3;
     // max-width: 1100px;
     padding: 20px 35px;
     border-radius: 5px;

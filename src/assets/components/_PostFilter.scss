@@ -5,6 +5,7 @@
         display: flex;
         padding: 1.25rem;
         gap: 10px;
+        color: var(--color1);
         span{
             cursor: pointer;
             font-size: 18px;
@@ -19,25 +20,11 @@
         flex-direction: column;
         gap: 10px;
         .tags-header{
+            color: var(--color1);
             font-weight: 700;
             padding-inline-start: 1.25rem;
         }
     }
-    // .tags{
-    //     background-color: rgba(255,255,255,1);
-    //     border-radius: 3px;
-    //     padding: 1.25rem;
-    //     box-shadow: 0 0 1px rgba(23, 23, 23, 0.05);
-    //     display: flex;
-    //     gap: 10px;
-    //     flex-wrap: wrap;
-    //     .tags-header {
-    //         font-weight: 700;
-    //     }
-    //     .tag {
-    //         cursor: pointer;
-    //     }
-    // }
 }
 
 @media(max-width:500px){

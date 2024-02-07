@@ -36,16 +36,18 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    background-color: white;
+    background-color: var(--bg-color);
     padding: 16px;
     &:hover {
-        background-color: #f9f9f9;
+        // background-color: #f9f9f9;
+        background-color: var(--display-hover);
     }
     h3 {
         // font-size: xx-large;
         // text-decoration: none;
         // color: rgb(65, 65, 65);
         // font-weight: 700;
+        color: var(--display-h3);
         &:hover {
             cursor: pointer;
             color: #3b49df;
@@ -74,6 +76,7 @@ export default {
             cursor: pointer;
             border-radius: 5px;
             padding: 7px;
+            color: var(--color1);
             &.delete {
                 color: #dc2626;
             }

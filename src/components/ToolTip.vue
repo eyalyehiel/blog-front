@@ -25,10 +25,10 @@ export default {
     position: absolute;
     transform: translateY(5px);
     border-radius: 6px;
-    background-color: rgba(23 23 23/0.9);
+    background-color: var(--tooltip-bg);
     font-size: 16px;
     padding: 10px;
-    color: white;
+    color: var(--bg-color);
     font-weight: 300;
 }
 </style>

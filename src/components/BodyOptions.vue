@@ -50,7 +50,8 @@ export default {
 .body-options {
     align-self: stretch;
     padding-inline: 0;
-    background-color: #f9f9f9;
+    // background-color: #f9f9f9;
+    background-color: var(--options-color);
     padding-inline-start: 12px;
     padding-block: 5px;
     button {
@@ -63,11 +64,14 @@ export default {
         height: 40px;
         border: 0;
         border-radius: 4px;
+        svg {
+            fill: var(--color1);
+        }
         &:hover {
             cursor: pointer;
-            background-color: rgb(230 231 247);
+            background-color: var(--svg-hover);
             svg {
-                fill: rgb(47 58 178);
+                fill: var(--svg-color);
             }
             .tooltip{
                 display: block;

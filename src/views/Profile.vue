@@ -3,7 +3,7 @@
         <section class="profile-header">
             <img :src="user.imgUrl" alt="" />
             <h2>{{ user.username }}</h2>
-            <p>{{ user.createdAt }}</p>
+            <p>Joined on {{ computedDate }}</p>
         </section>
         <section class="wrapper">
             <section class="profile-stats">
@@ -59,6 +59,17 @@ export default {
             // console.log(user.value)
             if (!user.value) router.push("/")
         })
+        const computedDate = computed(() => {
+            const date = new Date(user.value.createdAt) // Assuming the date is in YYYY-MM-DD format
+            const formattedDate = date.toLocaleDateString("en-US", {
+                month: "short",
+                day: "2-digit",
+                year: "numeric",
+            })
+
+            // console.log(formattedDate) // Output: Jan 15, 2024
+            return formattedDate
+        })
         const postsToShow = computed(() => {
             return user.value.posts.filter((post) => {
                 if (isDraft.value === "null") {
@@ -78,17 +89,17 @@ export default {
             user.value.posts.forEach((post) => (sum += post.userLiked.length))
             return sum
         })
-        const removePost = async (id)=>{
-            try{
+        const removePost = async (id) => {
+            try {
                 await postService.remove(id)
                 await userService.removeFromUserPosts(id)
                 user.value = userService.getLoggedinUser()
-                showSuccessMsg('Post removed')
-            } catch(err){
-                console.log(err);
+                showSuccessMsg("Post removed")
+            } catch (err) {
+                console.log(err)
             }
         }
-        return { user, sumComments, sumLikes, isDraft, postsToShow, removePost }
+        return { user, sumComments, sumLikes, isDraft, postsToShow, removePost,computedDate }
     },
     components: { PostDisplay },
 }

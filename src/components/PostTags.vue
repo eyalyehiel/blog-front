@@ -45,10 +45,10 @@ export default {
                 content: "#";
             }
             &:hover {
-                background-color: rgb(243 243 243);
-                box-shadow: inset 0 0 0 1px rgba(23, 23, 23, 0.05),
-                    inset 0 0 0 1px rgba(23, 23, 23, 0.05),
-                    inset 0 0 0 1px rgba(23, 23, 23, 0.05);
+                background-color: var(--tag-hover-preview);
+                box-shadow: inset 0 0 0 1px var(--tag-shadow-preview),
+                    inset 0 0 0 1px var(--tag-shadow-preview),
+                    inset 0 0 0 1px var(--tag-shadow-preview);
                     border-radius: 0.375rem;
             }
         }
@@ -61,15 +61,16 @@ export default {
         .post-tag{
             padding: 8px 16px 8px 1.25rem;
             line-height: 24px;
+            color: var(--color1);
             &::before {
                 content: "#";
             }
             &:hover {
                 cursor: pointer;
                 text-decoration: underline;
-                background-color: #e2e3f3;
+                background-color: var(--tag-hover-filter);
                 border-radius: 6px;
-                color: #2f3ab2;
+                color: var(--tag-hover-color);
             }
         }
     }
@@ -81,9 +82,8 @@ export default {
             border-radius: 6px;
             padding: 4px;
             display: flex;
-            // gap: 4px;
             line-height: 21px;
-            background-color: #f3f3f3;
+            background-color: var(--tag-hover-preview);
             &::before {
                 content: "#";
                 font-size: 14px;
@@ -103,23 +103,5 @@ export default {
             }
         }
     }
-    // gap: 15px;
-
-    // .post-tag {
-    //     background-color: #ddd;
-    //     padding: 5px 10px;
-    //     border-radius: 3px;
-    //     font-size: 13px;
-
-    //     &::before {
-    //         content: "#";
-    //     }
-
-    //     button {
-    //         border: 0;
-    //         // font-size: 15px;
-    //         background-color: transparent;
-    //     }
-    // }
 }
 </style>
