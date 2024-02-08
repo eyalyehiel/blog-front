@@ -13,16 +13,22 @@
                     <img :src="user.imgUrl" alt="" />
                     <div class="mini-wrapper">
                         <textarea
+                            ref="textarea"
                             placeholder="Add to the discussion"
-                            @blur="setRows(2)"
-                            @focus="setRows(4)"
-                            :rows="rows"
+                            v-outside="setRows"
+                            :style="{ height: height + 'px' }"
+                            v-model="body"
                         ></textarea>
-                        <button>Submit</button>
+
+                        <button @click.prevent="addComment">Submit</button>
                     </div>
                 </form>
-                <section class="comments-list">
-                    <CommentPreview v-for="i in 3" :key="i"/>
+                <section v-if="post.comments.length" class="comments-list">
+                    <CommentPreview
+                        v-for="comment in post.comments"
+                        :key="comment._id"
+                        :comment="comment"
+                    />
                 </section>
             </div>
         </section>
@@ -31,18 +37,21 @@
 </template>
 
 <script>
-import { onMounted, ref, computed } from "vue"
+import { onMounted, ref, computed, nextTick } from "vue"
 import { useRoute } from "vue-router"
 import { postService } from "@/services/post-service.js"
 import PostTags from "@/components/PostTags.vue"
 import { userService } from "@/services/user-service"
-import CommentPreview from '../components/CommentPreview.vue'
+import CommentPreview from "../components/CommentPreview.vue"
 export default {
     setup() {
         const { id } = useRoute().params
         const post = ref(null)
         const rows = ref(2)
         const user = ref(null)
+        const body = ref("")
+        const textarea = ref(null)
+        const height = ref(64)
         onMounted(async () => {
             post.value = await postService.getById(id)
             user.value = userService.getLoggedinUser()
@@ -51,12 +60,35 @@ export default {
         const editedBody = computed(() => {
             return postService.manageBody(post.value.body)
         })
-        const setRows = (r) => {
-            rows.value = r
+        const addComment = async () => {
+            try {
+                await postService.addComment(post.value, body.value)
+                post.value = await postService.getById(id)
+                body.value = ""
+            } catch (err) {
+                console.log(err)
+            }
         }
-        return { post, editedBody, rows, setRows, user }
+        const setRows = (r) => {
+            const computedStyle = window.getComputedStyle(textarea.value)
+            const lineHeight = parseInt(
+                computedStyle.getPropertyValue("line-height")
+            )
+            height.value = r * lineHeight + 20
+        }
+        return {
+            post,
+            editedBody,
+            rows,
+            addComment,
+            setRows,
+            user,
+            body,
+            textarea,
+            height,
+        }
     },
-    components: { PostTags,CommentPreview },
+    components: { PostTags, CommentPreview },
 }
 </script>
 

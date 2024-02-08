@@ -13,8 +13,9 @@ export const postService = {
     remove,
     manageBody,
     toggleLike,
+    addComment,
     // getEmptyPost,
-    // addPostMsg
+    // addPostComment
 }
 window.cs = postService
 
@@ -198,4 +199,21 @@ async function toggleLike(post) {
     } catch (err) {
         console.log("failed to like post in post service front end")
     }
+}
+
+async function addComment(post, body) {
+    // try {
+    //     comment._id = utilService.makeId()
+    //     comment.createdAt = new Date()
+    //     post.comments.unshift(comment)
+
+    //     return await save(post)
+    // } catch (err) {
+    //     console.log("failed to add comment")
+    // }
+    const savedComment = await httpService.post(`post/${post._id}/comment`, {
+        body: body,
+    })
+
+    return savedComment
 }

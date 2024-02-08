@@ -32,3 +32,16 @@
 1. fix bug user can like post unlimited times ---- DONE
 2. fix ui in profile when user has zero posts ----- DONE
 3. fix filter by likes
+
+
+comment :{
+    _id: 1,
+    createdAt: timestamp,
+    body: lorem10,
+    author: {
+        username: username,
+        _id: 123124,
+        imgUrl,
+    }
+
+}
