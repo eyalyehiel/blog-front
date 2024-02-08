@@ -7,7 +7,7 @@
                 <PostTags class="preview" :tags="post.tags" />
                 <p v-html="editedBody"></p>
             </div>
-            <div class="add-comment">
+            <div ref="comments" id="comments" class="add-comment">
                 <h2>Comments</h2>
                 <form>
                     <img :src="user.imgUrl" alt="" />
@@ -45,16 +45,22 @@ import { userService } from "@/services/user-service"
 import CommentPreview from "../components/CommentPreview.vue"
 export default {
     setup() {
-        const { id } = useRoute().params
+        const route = useRoute()
+        const params = route.params
         const post = ref(null)
         const rows = ref(2)
         const user = ref(null)
         const body = ref("")
         const textarea = ref(null)
         const height = ref(64)
+        const comments = ref(null)
         onMounted(async () => {
-            post.value = await postService.getById(id)
+            post.value = await postService.getById(params.id)
             user.value = userService.getLoggedinUser()
+            if(route.hash === "#comments"){
+                await nextTick()
+                comments.value.scrollIntoView({ behavior: "smooth", block: "end"  })
+            }
         })
 
         const editedBody = computed(() => {
@@ -63,7 +69,7 @@ export default {
         const addComment = async () => {
             try {
                 await postService.addComment(post.value, body.value)
-                post.value = await postService.getById(id)
+                post.value = await postService.getById(params.id)
                 body.value = ""
             } catch (err) {
                 console.log(err)
@@ -86,6 +92,7 @@ export default {
             body,
             textarea,
             height,
+            comments
         }
     },
     components: { PostTags, CommentPreview },

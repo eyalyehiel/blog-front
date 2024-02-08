@@ -24,7 +24,7 @@
                 <PostTags :tags="tagsToShow" class="preview" />
             </div>
             <section class="post-stats">
-                <span>{{ post.comments.length }} comments</span>
+                <span @click="router.push(`/post/${post._id}#comments`)">{{ post.comments.length }} comments</span>
                 <span @click="toggleLike">{{ post.userLiked.length }} likes</span>
             </section>
         </section>

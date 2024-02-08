@@ -32,5 +32,4 @@ function setStyleMode() {
     } else {
         root.classList.add("light")
     }
-    console.log("theme changed")
 }
