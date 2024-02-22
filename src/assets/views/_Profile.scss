@@ -41,7 +41,9 @@
         grid-template-columns: 1fr;
         align-self: stretch;
         gap: 10px;
+        padding: 0;
         .profile-stats {
+            padding-inline: 20px;
             display: flex;
             align-self: baseline;
             // gap: 10px;
@@ -74,6 +76,7 @@
                 justify-content: space-between;
                 align-items: center;
                 color: var(--color1);
+                padding-inline: 20px;
                 select {
                     background-color: var(--bg-color);
                     color: var(--color1);
@@ -125,12 +128,19 @@
         }
         .wrapper {
             grid-template-columns: 1fr;
+            padding-inline: 20px;
             .profile-stats {
+                padding-inline: 0;
                 gap: 10px;
                 flex-direction: row;
                 > * {
                     border-radius: 5px;
                     flex: 1;
+                }
+            }
+            .posts-dashboard {
+                .dashboard-header {
+                    padding-inline: 0;
                 }
             }
         }

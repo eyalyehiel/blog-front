@@ -166,6 +166,20 @@ function manageBody(body) {
                     bodyToEdit = bodyToEdit.replace(str + "\n", "")
                     i = 0
                     break
+                case "!":
+                    bodyArray.push(bodyToEdit.substring(0, i))
+                    bodyToEdit = bodyToEdit.substring(i)
+                    bodyToEdit = bodyToEdit.replace("![", "")
+                    i = bodyToEdit.indexOf("]")
+                    str = bodyToEdit.substring(0, i)
+                    bodyToEdit = bodyToEdit.replace(str + "]", "")
+                    bodyToEdit = bodyToEdit.replace("(", "")
+                    i = bodyToEdit.indexOf(")")
+                    let blink = bodyToEdit.substring(0, i)
+                    bodyArray.push(`<img src="${blink}" alt="${str}">`)
+                    bodyToEdit = bodyToEdit.replace(blink + ")", "")
+                    i = 0
+                    break
             }
             loops = bodyToEdit.length
             // console.log(i);

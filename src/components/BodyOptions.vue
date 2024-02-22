@@ -1,19 +1,34 @@
 <template>
     <section class="body-options">
-        <button @click.prevent="customText('addBold')"><BoldIcon />
-            <ToolTip text="Bold"/>
+        <button @click.prevent="customText('addBold')">
+            <BoldIcon />
+            <ToolTip text="Bold" />
         </button>
-        <button @click.prevent="customText('addItalic')"><ItalicIcon />
-            <ToolTip text="Italic"/></button>
-        <button @click.prevent="customText('addUrl')"><LinkIcon />
-            <ToolTip text="Link"/></button>
-        <button @click.prevent="customText('addHeading')"><HeadingIcon />
-            <ToolTip text="Heading"/></button>
-        <button @click.prevent="customText('addQuote')"><QuoteIcon />
-            <ToolTip text="Quote"/></button>
-        <button @click.prevent="customText('addCode')"><CodeIcon />
-            <ToolTip text="Code"/></button>
-        <button><ImageIcon /></button>
+        <button @click.prevent="customText('addItalic')">
+            <ItalicIcon /> <ToolTip text="Italic" />
+        </button>
+        <button @click.prevent="customText('addUrl')">
+            <LinkIcon /> <ToolTip text="Link" />
+        </button>
+        <button @click.prevent="customText('addHeading')">
+            <HeadingIcon /> <ToolTip text="Heading" />
+        </button>
+        <button @click.prevent="customText('addQuote')">
+            <QuoteIcon /> <ToolTip text="Quote" />
+        </button>
+        <button @click.prevent="customText('addCode')">
+            <CodeIcon /> <ToolTip text="Code" />
+        </button>
+        <button @click.stop="browseFiles">
+            <ImageIcon />
+            <input
+                @change.prevent="handleFile"
+                style="display: none"
+                type="file"
+                name=""
+                id="body-uploader"
+            />
+        </button>
     </section>
 </template>
 
@@ -26,22 +41,33 @@ import QuoteIcon from "../assets/svgs/quote.vue"
 import CodeIcon from "../assets/svgs/code.vue"
 import ImageIcon from "../assets/svgs/image.vue"
 import ToolTip from "./ToolTip.vue"
+import { uploadImg } from "@/services/upload-service"
 export default {
     components: {
-    BoldIcon,
-    CodeIcon,
-    HeadingIcon,
-    ImageIcon,
-    ItalicIcon,
-    LinkIcon,
-    QuoteIcon,
-    ToolTip
-},
+        BoldIcon,
+        CodeIcon,
+        HeadingIcon,
+        ImageIcon,
+        ItalicIcon,
+        LinkIcon,
+        QuoteIcon,
+        ToolTip,
+    },
     setup(props, context) {
         const customText = (type) => {
             context.emit(type)
         }
-        return { customText }
+        const browseFiles = () => {
+            document.getElementById("body-uploader").click()
+        }
+        const handleFile = async (ev) => {
+            let file
+            file = ev.target.files[0]
+            context.emit("addImage", "")
+            let imgUrl = await uploadImg(file)
+            context.emit("addImage", imgUrl.url)
+        }
+        return { customText, browseFiles, handleFile }
     },
 }
 </script>
@@ -73,7 +99,7 @@ export default {
             svg {
                 fill: var(--svg-color);
             }
-            .tooltip{
+            .tooltip {
                 display: block;
             }
         }

@@ -29,6 +29,9 @@
 
 @media(max-width:500px){
     .post-filter {
-        display: none;
+        order: -1;
+        .tags-wrapper{
+            display: none;
+        }
     }
 }

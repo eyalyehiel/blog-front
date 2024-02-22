@@ -32,6 +32,7 @@
                 @addUrl="addUrl"
                 @addCode="addCode"
                 @addHeading="addHeading"
+                @addImage="addImage"
             />
             <textarea
                 autocomplete="off"
@@ -45,7 +46,7 @@
         </section>
         <section class="btns">
             <button class="publish" @click.prevent="addPost(false)">
-                {{ route.params.id ? "Update" : "Publish"}}
+                {{ route.params.id ? "Update" : "Publish" }}
             </button>
             <button class="save" @click.prevent="addPost(true)">
                 Save draft
@@ -62,7 +63,7 @@ import BodyOptions from "@/components/BodyOptions.vue"
 import { showErrorMsg, showSuccessMsg } from "@/services/event-bus.service.js"
 import { userService } from "@/services/user-service"
 import { useRoute } from "vue-router"
-import {uploadImg} from "../services/upload-service.js"
+import { uploadImg } from "../services/upload-service.js"
 export default {
     setup() {
         const textarea = ref("")
@@ -89,10 +90,10 @@ export default {
         const handleFile = async (ev) => {
             let file
             file = ev.target.files[0]
-            
+
             isLoading.value = true
             imgUrl.value = await uploadImg(file)
-            console.log(imgUrl.value.url);
+            console.log(imgUrl.value.url)
             isLoading.value = false
         }
         const addItalic = async () => {
@@ -134,6 +135,20 @@ export default {
             textarea.value.focus()
             let pos = body.value.indexOf("(url)")
             textarea.value.setSelectionRange(pos + 1, pos + 4)
+        }
+        const addImage = async (status) => {
+            if (!status) {
+                body.value =
+                    body.value.slice(0, textarea.value.selectionStart) +
+                    "![Uploading Image](...)" +
+                    body.value.slice(textarea.value.selectionStart)
+            } else {
+                body.value = body.value.replace(
+                    "![Uploading Image](...)",
+                    `![Image description](${status})`
+                )
+            }
+
         }
         const addHeading = async () => {
             textarea.value.selectionStart = body.value.length
@@ -217,6 +232,7 @@ export default {
             addHeading,
             addQuote,
             addCode,
+            addImage,
         }
     },
     components: { PostTags, BodyOptions },
