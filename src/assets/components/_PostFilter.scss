@@ -16,8 +16,7 @@
         }
     }
     .tags-wrapper{
-        display: flex;
-        flex-direction: column;
+        @include flex-column;
         gap: 10px;
         .tags-header{
             color: var(--color1);

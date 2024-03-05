@@ -1,6 +1,5 @@
 .post-preview {
-    display: flex;
-    flex-direction: column;
+    @include flex-column;
     background-color: var(--bg-color);
     border-radius: $border-radius;
     color: var(--color1);
@@ -15,17 +14,15 @@
         object-fit: cover;
     }
     .wrapper {
+        @include flex-column;
         padding: 1.25rem;
-        display: flex;
-        flex-direction: column;
         gap: 10px;
         .post-author {
             display: flex;
             gap: 10px;
             align-items: center;
             .mini-wrapper {
-                display: flex;
-                flex-direction: column;
+                @include flex-column;
                 font-weight: 300;
                 
                 .user-name{

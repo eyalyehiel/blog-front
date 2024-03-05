@@ -1,6 +1,5 @@
 .post-list {
-    display: flex;
-    flex-direction: column;
+    @include flex-column;
     // order: -1;
     gap: 10px;
 

@@ -72,14 +72,13 @@ header {
             cursor: pointer;
         }
         ul {
+            @include flex-column;
             color: var(--color1);
             top: 75px;
             inset-inline: 20px;
             position: fixed;
             background-color: var(--bg-color);
             list-style-type: none;
-            display: flex;
-            flex-direction: column;
             justify-content: stretch;
             border: 1px solid var(--border-ul);
             box-shadow: $box-shadow;
@@ -96,6 +95,9 @@ header {
                     &:visited{
                         color: var(--color1);
                     }
+                }
+                &.hr{
+                    border-block-start: 1px solid var(--border-ul);
                 }
             }
         }

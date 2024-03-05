@@ -19,8 +19,7 @@
                             isDark ? "Set light theme" : "Set dark theme"
                         }}</span>
                     </li>
-                    <li><hr /></li>
-                    <li @click="logout"><span>Logout</span></li>
+                    <li class="hr" @click="logout"><span>Logout</span></li>
                 </ul>
             </span>
         </section>

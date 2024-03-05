@@ -45,8 +45,7 @@
     }
 
     .wrapper {
-        display: flex;
-        flex-direction: column;
+        @include flex-column;
         gap: 10px;
         h2 {
             text-align: center;

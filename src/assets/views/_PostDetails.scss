@@ -6,8 +6,7 @@
     align-items: start;
 
     .post-display {
-        display: flex;
-        flex-direction: column;
+        @include flex-column;
         background-color: var(--bg-color);
         border-radius: $border-radius;
         text-decoration: none;
@@ -22,9 +21,8 @@
             object-fit: cover;
         }
         .wrapper {
+            @include flex-column;
             padding: 1.25rem;
-            display: flex;
-            flex-direction: column;
             gap: 10px;
 
             blockquote {
@@ -49,11 +47,9 @@
             }
         }
         .add-comment {
-            // #e8e8e8
+            @include flex-column;
             border-top: 1px solid var(--img-button-color);
             padding: 16px 32px;
-            display: flex;
-            flex-direction: column;
             gap: 10px;
             form {
                 gap: 10px;
@@ -66,10 +62,9 @@
                     border: 1px solid var(--tag-shadow-preview);
                 }
                 .mini-wrapper {
+                    @include flex-column;
                     flex: 1;
                     gap: 10px;
-                    display: flex;
-                    flex-direction: column;
                 }
                 textarea {
                     background-color: var(--body-color);
@@ -104,8 +99,7 @@
                 }
             }
             .comments-list {
-                display: flex;
-                flex-direction: column;
+                @include flex-column;
                 gap: 10px;
             }
         }
@@ -119,8 +113,7 @@
         display: none;
 
         .post-author {
-            display: flex;
-            flex-direction: column;
+            @include flex-column;
             background-color: var(--bg-color);
             border-radius: $border-radius;
             text-decoration: none;
@@ -148,8 +141,7 @@
                 }
             }
             .joined {
-                display: flex;
-                flex-direction: column;
+                @include flex-column;
                 gap: 5px;
                 :first-child {
                     color: var(--color1);
@@ -158,13 +150,13 @@
                 }
             }
         }
-        .options-wrapper{
+        .options-wrapper {
             @include component;
             padding: 1rem;
             display: grid;
-            grid-template-columns: 1fr .2fr;
+            grid-template-columns: 1fr 0.2fr;
             gap: 10px;
-            a{
+            a {
                 display: flex;
                 text-decoration: none;
             }
@@ -184,7 +176,6 @@
                     background-color: $clr2-hover;
                 }
             }
-
         }
     }
 }
@@ -193,11 +184,10 @@
     .post-details {
         padding-inline: 20px;
         grid-template-columns: minmax(auto, 660px) 1fr;
-        .post-options{
+        .post-options {
+            @include flex-column;
             position: sticky;
             top: 80px;
-            display: flex;
-            flex-direction: column;
             gap: 10px;
         }
         &.add-comment {

@@ -4,3 +4,8 @@
     color: var(--color1);
     box-shadow: $box-shadow;
 }
+
+@mixin flex-column{
+    display: flex;
+    flex-direction: column;
+}
