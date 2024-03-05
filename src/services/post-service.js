@@ -167,6 +167,9 @@ function manageBody(body) {
                     i = 0
                     break
                 case "!":
+                    if (bodyToEdit[i + 1] !== "[") {
+                        break
+                    }
                     bodyArray.push(bodyToEdit.substring(0, i))
                     bodyToEdit = bodyToEdit.substring(i)
                     bodyToEdit = bodyToEdit.replace("![", "")

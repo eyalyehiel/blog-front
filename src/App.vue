@@ -4,6 +4,7 @@ import AppHeader from "./components/AppHeader.vue"
 import { onMounted, ref } from "vue"
 import UserMsg from "./components/UserMsg.vue"
 import {utilService} from "./services/util.service.js"
+import { userService } from "./services/user-service"
 export default {
     components: {
         AppHeader,
@@ -11,16 +12,21 @@ export default {
     },
     setup(props) {
         onMounted(() => {
-            utilService.setStyleMode()
+            utilService.toggleTheme()
         })
-        return {  }
+        const toggleTheme = async () =>{
+            const {theme} = await userService.toggleUserTheme()
+            // console.log(theme);
+            // utilService.toggleTheme(theme)
+        }
+        return { toggleTheme }
     },
 }
 </script>
 
 <template>
     <main class="container">
-        <AppHeader />
+        <AppHeader @toggleTheme="toggleTheme"/>
         <RouterView />
     </main>
     <UserMsg/>

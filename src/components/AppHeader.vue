@@ -14,6 +14,12 @@
                 <ul @click="toggleMenu" v-if="menuOpen">
                     <li><router-link to="/profile">Profile</router-link></li>
                     <li><router-link to="/edit">Add post</router-link></li>
+                    <li @click="toggleTheme">
+                        <span>{{
+                            isDark ? "Set light theme" : "Set dark theme"
+                        }}</span>
+                    </li>
+                    <li><hr /></li>
                     <li @click="logout"><span>Logout</span></li>
                 </ul>
             </span>
@@ -31,11 +37,12 @@ import {
 } from "@/services/event-bus.service"
 import { useRouter } from "vue-router"
 export default {
-    setup() {
+    setup(props, context) {
         const menuOpen = ref(false)
         const isScrolled = ref(false)
         const user = ref(null)
         const router = useRouter()
+        const isDark = ref(false)
         onMounted(() => {
             user.value = userService.getLoggedinUser()
             eventBus.on("updateHeader", () => {
@@ -62,6 +69,14 @@ export default {
             // window.location.reload()
         }
 
+        const toggleTheme = async () => {
+            // const res = await userService.toggleUserTheme(user.value._id)
+            // console.log(res);
+            // isDark.value = !isDark.value
+            // context.emit("toggleTheme", isDark.value)
+            // refresh()
+        }
+
         return {
             toggleMenu,
             menuOpen,
@@ -70,6 +85,8 @@ export default {
             logout,
             refresh,
             router,
+            toggleTheme,
+            isDark,
         }
     },
 }

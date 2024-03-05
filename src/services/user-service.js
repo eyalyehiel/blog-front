@@ -17,6 +17,7 @@ export const userService = {
     getById,
     remove,
     update,
+    toggleUserTheme,
     // setWishlist,
     // getTripsByUserId,
     saveToUserPosts,
@@ -122,5 +123,11 @@ async function removeFromUserPosts(postId) {
     const user = await getById(_id)
     const idx = user.posts.findIndex((post) => post._id === postId)
     user.posts.splice(idx, 1)
+    return await update(user)
+}
+async function toggleUserTheme(){
+    const {_id} = getLoggedinUser()
+    const user = await userService.getById(_id)
+    user.theme = 'light' ? 'dark' : 'light'
     return await update(user)
 }

@@ -1,8 +1,9 @@
+import { userService } from "./user-service.js"
 export const utilService = {
     makeId,
     saveToStorage,
     loadFromStorage,
-    setStyleMode,
+    toggleTheme,
 }
 
 function makeId(length = 5) {
@@ -24,12 +25,46 @@ function saveToStorage(key, value) {
     localStorage.setItem(key, JSON.stringify(value) || null)
 }
 
-function setStyleMode() {
-    const currentHour = new Date().getHours()
+function toggleTheme() {
     const root = document.documentElement
-    if (currentHour > 17 || currentHour < 7) {
-        root.classList.add("dark")
-    } else {
-        root.classList.add("light")
-    }
+    root.classList.add("light")
+    
+    // const { theme } = userService.getLoggedinUser()
+    // if(!theme)
+    // console.log(theme)
+    // if (theme === "light") {
+    //     root.classList.remove("dark")
+    // } else {
+    //     root.classList.add("dark")
+    //     root.classList.remove("light")
+    // }
+    // // root.classList.add("light")
+    // let currrent = loadFromStorage("theme")
+    // console.log(currrent);
+    // if (!currrent) {
+    // saveToStorage("theme", "light")
+    // return
+    // }
+    // console.log(theme);
+    // if (theme) {
+    //     root.classList.add("light")
+    //     root.classList.remove('dark')
+    //     saveToStorage("theme", "light")
+    // } else {
+    //     root.classList.add("dark")
+    //     root.classList.remove("light")
+    //     saveToStorage("theme", "dark")
+    // }
+    // if (!themeC) {
+    //     root.classList.add("dark")
+    //     saveToStorage("theme", "dark")
+    // } else if (themeC === "dark") {
+    //     root.classList.remove("dark")
+    //     root.classList.add("light")
+    //     saveToStorage("theme", "light")
+    // } else {
+    //     root.classList.add("dark")
+    //     root.classList.remove("light")
+    //     saveToStorage("theme", "dark")
+    // }
 }

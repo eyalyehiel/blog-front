@@ -1,0 +1,6 @@
+@mixin component {
+    background-color: var(--bg-color);
+    border-radius: $border-radius;
+    color: var(--color1);
+    box-shadow: $box-shadow;
+}

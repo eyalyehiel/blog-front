@@ -32,7 +32,24 @@
                 </section>
             </div>
         </section>
-        <section class="post-author"></section>
+        <section class="post-options">
+            <section class="post-author">
+                <div class="info">
+                    <img :src="post.author.imgUrl" alt="" />
+                    <span>{{ post.author.username }}</span>
+                </div>
+                <div class="joined">
+                    <span>JOINED</span>
+                    <span>Nov 9</span>
+                </div>
+            </section>
+            <section class="options-wrapper">
+            <a href="#comments">
+            <button>Add comment</button>
+            </a>
+            <button class="like-post">Like</button>
+            </section>
+        </section>
     </main>
 </template>
 
@@ -56,10 +73,14 @@ export default {
         const comments = ref(null)
         onMounted(async () => {
             post.value = await postService.getById(params.id)
+            console.log(post.value)
             user.value = userService.getLoggedinUser()
-            if(route.hash === "#comments"){
+            if (route.hash === "#comments") {
                 await nextTick()
-                comments.value.scrollIntoView({ behavior: "smooth", block: "end"  })
+                comments.value.scrollIntoView({
+                    behavior: "smooth",
+                    block: "end",
+                })
             }
         })
 
@@ -92,7 +113,7 @@ export default {
             body,
             textarea,
             height,
-            comments
+            comments,
         }
     },
     components: { PostTags, CommentPreview },
