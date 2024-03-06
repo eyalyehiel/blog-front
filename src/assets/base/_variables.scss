@@ -31,6 +31,7 @@ $clr2-hover: #2f3ab2;
         --tooltip-bg: rgba(23 23 23/0.9);
         --display-hover : #f9f9f9;
         --display-h3: #000000;
+        --user-info: #000000;
     }
     &.dark {
         --bg-color: rgb(23, 23, 23);
@@ -50,5 +51,6 @@ $clr2-hover: #2f3ab2;
         --tooltip-bg: rgba(255 255 255/0.9);
         --display-hover : #090909;
         --display-h3: #3b49df;
+        --user-info: #ffffff;
     }
 }

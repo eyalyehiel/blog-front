@@ -11,13 +11,11 @@
             </button>
             <span v-else class="menu">
                 <img @click="toggleMenu" :src="user?.imgUrl" alt="" />
-                <ul @click="toggleMenu" v-if="menuOpen">
+                <ul v-outside="toggleMenu" @click="toggleMenu" v-if="menuOpen">
                     <li><router-link to="/profile">Profile</router-link></li>
                     <li><router-link to="/edit">Add post</router-link></li>
                     <li @click="toggleTheme">
-                        <span>{{
-                            isDark ? "Set light theme" : "Set dark theme"
-                        }}</span>
+                        <span>Toggle theme</span>
                     </li>
                     <li class="hr" @click="logout"><span>Logout</span></li>
                 </ul>
@@ -41,7 +39,7 @@ export default {
         const isScrolled = ref(false)
         const user = ref(null)
         const router = useRouter()
-        const isDark = ref(false)
+        
         onMounted(() => {
             user.value = userService.getLoggedinUser()
             eventBus.on("updateHeader", () => {
@@ -69,11 +67,7 @@ export default {
         }
 
         const toggleTheme = async () => {
-            // const res = await userService.toggleUserTheme(user.value._id)
-            // console.log(res);
-            // isDark.value = !isDark.value
             context.emit("toggleTheme")
-            // refresh()
         }
 
         return {
@@ -85,7 +79,7 @@ export default {
             refresh,
             router,
             toggleTheme,
-            isDark,
+            
         }
     },
 }

@@ -1,6 +1,6 @@
 .post-filter {
-    position: sticky;
-    top: 80px;
+    // position: sticky;
+    // top: 80px;
     .order {
         display: flex;
         padding: 1.25rem;
@@ -28,9 +28,16 @@
 
 @media(max-width:500px){
     .post-filter {
+        
         order: -1;
         .tags-wrapper{
             display: none;
         }
+    }
+}
+@media (min-width: 500px){
+    .post-filter{
+        position: sticky;
+        top: 80px;
     }
 }
