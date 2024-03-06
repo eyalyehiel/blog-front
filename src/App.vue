@@ -16,8 +16,7 @@ export default {
         })
         const toggleTheme = async () =>{
             const {theme} = await userService.toggleUserTheme()
-            // console.log(theme);
-            // utilService.toggleTheme(theme)
+            utilService.toggleTheme(theme)
         }
         return { toggleTheme }
     },

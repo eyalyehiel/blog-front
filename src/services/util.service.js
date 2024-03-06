@@ -27,44 +27,9 @@ function saveToStorage(key, value) {
 
 function toggleTheme() {
     const root = document.documentElement
-    root.classList.add("light")
-    
-    // const { theme } = userService.getLoggedinUser()
-    // if(!theme)
-    // console.log(theme)
-    // if (theme === "light") {
-    //     root.classList.remove("dark")
-    // } else {
-    //     root.classList.add("dark")
-    //     root.classList.remove("light")
-    // }
-    // // root.classList.add("light")
-    // let currrent = loadFromStorage("theme")
-    // console.log(currrent);
-    // if (!currrent) {
-    // saveToStorage("theme", "light")
-    // return
-    // }
-    // console.log(theme);
-    // if (theme) {
-    //     root.classList.add("light")
-    //     root.classList.remove('dark')
-    //     saveToStorage("theme", "light")
-    // } else {
-    //     root.classList.add("dark")
-    //     root.classList.remove("light")
-    //     saveToStorage("theme", "dark")
-    // }
-    // if (!themeC) {
-    //     root.classList.add("dark")
-    //     saveToStorage("theme", "dark")
-    // } else if (themeC === "dark") {
-    //     root.classList.remove("dark")
-    //     root.classList.add("light")
-    //     saveToStorage("theme", "light")
-    // } else {
-    //     root.classList.add("dark")
-    //     root.classList.remove("light")
-    //     saveToStorage("theme", "dark")
-    // }
+    const { theme } = userService.getLoggedinUser()
+    theme && root.classList.add(theme)
+    if(theme === 'light'){
+        root.classList.remove('dark')
+    } else root.classList.remove('light')
 }

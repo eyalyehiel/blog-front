@@ -72,7 +72,7 @@ export default {
             // const res = await userService.toggleUserTheme(user.value._id)
             // console.log(res);
             // isDark.value = !isDark.value
-            // context.emit("toggleTheme", isDark.value)
+            context.emit("toggleTheme")
             // refresh()
         }
 

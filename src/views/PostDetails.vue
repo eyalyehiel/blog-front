@@ -44,10 +44,10 @@
                 </div>
             </section>
             <section class="options-wrapper">
-            <a href="#comments">
-            <button>Add comment</button>
-            </a>
-            <button class="like-post">Like</button>
+                <a href="#comments">
+                    <button>Add comment</button>
+                </a>
+                <button class="like-post">Like</button>
             </section>
         </section>
     </main>

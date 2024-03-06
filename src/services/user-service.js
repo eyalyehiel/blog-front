@@ -128,6 +128,6 @@ async function removeFromUserPosts(postId) {
 async function toggleUserTheme(){
     const {_id} = getLoggedinUser()
     const user = await userService.getById(_id)
-    user.theme = 'light' ? 'dark' : 'light'
+    user.theme = user.theme === 'light' ? 'dark' : 'light'
     return await update(user)
 }
