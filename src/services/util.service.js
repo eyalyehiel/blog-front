@@ -27,9 +27,13 @@ function saveToStorage(key, value) {
 
 function toggleTheme() {
     const root = document.documentElement
-    const { theme } = userService.getLoggedinUser()
+    const { theme } = userService.getLoggedinUser() || { theme: null }
+    if (!theme) {
+        root.classList.add("light")
+        return
+    }
     theme && root.classList.add(theme)
-    if(theme === 'light'){
-        root.classList.remove('dark')
-    } else root.classList.remove('light')
+    if (theme === "light") {
+        root.classList.remove("dark")
+    } else root.classList.remove("light")
 }
